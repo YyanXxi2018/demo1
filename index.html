@@ -1,36 +1,7 @@
-<!DOCTYPE html>
-<html lang="zh-CN">
- 
+<!DOCTYPE  html>
+<html lang='en'>
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width,minimum-scale=1,maximum-scale=1,initial-scale=1,user-scalable=no">
-    <script src="https://cdn.bootcss.com/iScroll/5.2.0/iscroll.min.js"></script>
-    <style>
-    .wechat_from {
-        position: fixed;
-       
-        top: 0;
-        left: 0;
-        right: 0;
-        /*防止 下拉太长 显示 蓝色背景*/
-       
-        color: #7A7B7D;
-        padding: 10px 0;
-        font-size: 12px;
-    }
- 
-    #wrapper {
-        position: absolute;
-        z-index: 1;
-        top: 0;
-        bottom: 0;
-        width: 100%;
-        overflow: hidden;
-    }
- 
-
-    </style>
-	<meta charset='UTF-8'>
+<meta charset='UTF-8'>
 <meta name='viewport'
 	content='width=device-width,maximum-scale=1.0,minimum-scale=1.0'>
 <meta http-equiv='X-UA-Compatible' content='ie=edge'>
@@ -61,15 +32,8 @@
 	show_site_runtime();
 </script>
 </head>
- <div class="wechat_from">
- </br>
-        <center>此网页由 言凞ByQq1414861799 提供</center>
-    </div>
 <body>
-    
-    <div id="wrapper">
-        <div id="container">
-            <div class='header'>
+	<div class='header'>
 		<h2>给头像加上口罩</h2>
 	</div>
 	<h4>
@@ -154,7 +118,6 @@
 		Copyright © 2020 <a href="http://28b6f08659.oicp.vip/#">言凞娱乐网络</a> <img
 			style="height: 50px; width: 50px"
 			src="./qrcode_for_gh_2153bc3d5d69_258.jpg" /> All rights reserved.
-			</br></br></br>
 		<div style='display: none'>
 			<img id='img' src='' alt='' /> <img class='hide' id='hat0'
 				src='./hat0.png' /> <img class='hide' id='hat1' src='./hat1.png' />
@@ -172,31 +135,5 @@
 			src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js" />
 		</script>
 	</div>
-        </div>
-    </div>
-    <script>
-    var myScroll;
- 
-    function isPassive() {
-        var supportsPassiveOption = false;
-        try {
-            addEventListener("test", null, Object.defineProperty({}, 'passive', {
-                get: function() {
-                    supportsPassiveOption = true;
-                }
-            }));
-        } catch (e) {}
-        return supportsPassiveOption;
-    }
- 
-    window.onload = function() {
-        myScroll = new IScroll('#wrapper', { mouseWheel: true });
-    }
-    document.addEventListener('touchmove', function(e) { e.preventDefault(); }, isPassive() ? {
-        capture: false,
-        passive: false
-    } : false);
-    </script>
 </body>
- 
 </html>

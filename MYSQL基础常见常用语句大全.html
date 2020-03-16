@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>MYSQL基础常见常用语句大全</title> 
+<link rel="stylesheet" id="_bootstrap-css" href="https://blog.btstu.cn/content/templates/fee/static/css/bootstrap.min.css?ver=6.0.1" type="text/css" media="all">
+<link rel="stylesheet" id="_main-css" href="https://blog.btstu.cn/content/templates/fee/static/css/main.css?ver=6.0.1" type="text/css" media="all">
+</head>
+<body>
+<pre class="language-markup prettyprint"><code><span class="lit">1</span><span class="pun">、说明：创建数据库</span><span class="pln">
+CREATE DATABASE database</span><span class="pun">-</span><span class="pln">name
+</span><span class="lit">2</span><span class="pun">、说明：删除数据库</span><span class="pln">
+drop database dbname
+</span><span class="lit">3</span><span class="pun">、说明：备份</span><span class="pln">sql server
+</span><span class="pun">---</span><span class="pln"> </span><span class="pun">创建</span><span class="pln"> </span><span class="pun">备份数据的</span><span class="pln"> device
+USE master
+EXEC sp_addumpdevice </span><span class="str">'disk'</span><span class="pun">,</span><span class="pln"> </span><span class="str">'testBack'</span><span class="pun">,</span><span class="pln"> </span><span class="str">'c:\mssql7backup\MyNwind_1.dat'</span><span class="pln">
+</span><span class="pun">---</span><span class="pln"> </span><span class="pun">开始</span><span class="pln"> </span><span class="pun">备份</span><span class="pln">
+BACKUP DATABASE pubs TO testBack
+</span><span class="lit">4</span><span class="pun">、说明：创建新表</span><span class="pln">
+create table tabname</span><span class="pun">(</span><span class="pln">col1 type1 </span><span class="pun">[</span><span class="kwd">not</span><span class="pln"> </span><span class="kwd">null</span><span class="pun">]</span><span class="pln"> </span><span class="pun">[</span><span class="pln">primary key</span><span class="pun">],</span><span class="pln">col2 type2 </span><span class="pun">[</span><span class="kwd">not</span><span class="pln"> </span><span class="kwd">null</span><span class="pun">],..)</span><span class="pln">
+</span><span class="pun">根据已有的表创建新表：</span><span class="pln">
+A</span><span class="pun">：</span><span class="pln">create table tab_new like tab_old </span><span class="pun">(使用旧表创建新表)</span><span class="pln">
+B</span><span class="pun">：</span><span class="pln">create table tab_new </span><span class="kwd">as</span><span class="pln"> </span><span class="kwd">select</span><span class="pln"> col1</span><span class="pun">,</span><span class="pln">col2</span><span class="pun">…</span><span class="pln"> </span><span class="kwd">from</span><span class="pln"> tab_old definition only
+</span><span class="lit">5</span><span class="pun">、说明：删除新表</span><span class="pln">
+drop table tabname
+</span><span class="lit">6</span><span class="pun">、说明：增加一个列</span><span class="pln">
+</span><span class="typ">Alter</span><span class="pln"> table tabname add column col type
+</span><span class="pun">注：列增加后将不能删除。</span><span class="pln">DB2</span><span class="pun">中列加上后数据类型也不能改变，唯一能改变的是增加</span><span class="pln">varchar</span><span class="pun">类型的长度。</span><span class="pln">
+</span><span class="lit">7</span><span class="pun">、说明：添加主键：</span><span class="pln"> </span><span class="typ">Alter</span><span class="pln"> table tabname add primary key</span><span class="pun">(</span><span class="pln">col</span><span class="pun">)</span><span class="pln">
+</span><span class="pun">说明：删除主键：</span><span class="pln"> </span><span class="typ">Alter</span><span class="pln"> table tabname drop primary key</span><span class="pun">(</span><span class="pln">col</span><span class="pun">)</span><span class="pln">
+</span><span class="lit">8</span><span class="pun">、说明：创建索引：</span><span class="pln">create </span><span class="pun">[</span><span class="pln">unique</span><span class="pun">]</span><span class="pln"> index idxname on tabname</span><span class="pun">(</span><span class="pln">col</span><span class="pun">….)</span><span class="pln">
+</span><span class="pun">删除索引：</span><span class="pln">drop index idxname
+</span><span class="pun">注：索引是不可更改的，想更改必须删除重新建。</span><span class="pln">
+</span><span class="lit">9</span><span class="pun">、说明：创建视图：</span><span class="pln">create view viewname </span><span class="kwd">as</span><span class="pln"> </span><span class="kwd">select</span><span class="pln"> statement
+</span><span class="pun">删除视图：</span><span class="pln">drop view viewname
+</span><span class="lit">10</span><span class="pun">、说明：几个简单的基本的</span><span class="pln">sql</span><span class="pun">语句</span><span class="pln">
+</span><span class="pun">选择：</span><span class="kwd">select</span><span class="pln"> </span><span class="pun">*</span><span class="pln"> </span><span class="kwd">from</span><span class="pln"> table1 </span><span class="kwd">where</span><span class="pln"> </span><span class="pun">范围</span><span class="pln">
+</span><span class="pun">插入：</span><span class="pln">insert </span><span class="kwd">into</span><span class="pln"> table1</span><span class="pun">(</span><span class="pln">field1</span><span class="pun">,</span><span class="pln">field2</span><span class="pun">)</span><span class="pln"> values</span><span class="pun">(</span><span class="pln">value1</span><span class="pun">,</span><span class="pln">value2</span><span class="pun">)</span><span class="pln">
+</span><span class="pun">删除：</span><span class="kwd">delete</span><span class="pln"> </span><span class="kwd">from</span><span class="pln"> table1 </span><span class="kwd">where</span><span class="pln"> </span><span class="pun">范围</span><span class="pln">
+</span><span class="pun">更新：</span><span class="pln">update table1 </span><span class="kwd">set</span><span class="pln"> field1</span><span class="pun">=</span><span class="pln">value1 </span><span class="kwd">where</span><span class="pln"> </span><span class="pun">范围</span><span class="pln">
+</span><span class="pun">查找：</span><span class="kwd">select</span><span class="pln"> </span><span class="pun">*</span><span class="pln"> </span><span class="kwd">from</span><span class="pln"> table1 </span><span class="kwd">where</span><span class="pln"> field1 like </span><span class="pun">’%</span><span class="pln">value1</span><span class="pun">%’</span><span class="pln"> </span><span class="pun">---</span><span class="pln">like</span><span class="pun">的语法很精妙，查资料!</span><span class="pln">
+</span><span class="pun">排序：</span><span class="kwd">select</span><span class="pln"> </span><span class="pun">*</span><span class="pln"> </span><span class="kwd">from</span><span class="pln"> table1 order </span><span class="kwd">by</span><span class="pln"> field1</span><span class="pun">,</span><span class="pln">field2 </span><span class="pun">[</span><span class="pln">desc</span><span class="pun">]</span><span class="pln">
+</span><span class="pun">总数：</span><span class="kwd">select</span><span class="pln"> count </span><span class="kwd">as</span><span class="pln"> totalcount </span><span class="kwd">from</span><span class="pln"> table1
+</span><span class="pun">求和：</span><span class="kwd">select</span><span class="pln"> sum</span><span class="pun">(</span><span class="pln">field1</span><span class="pun">)</span><span class="pln"> </span><span class="kwd">as</span><span class="pln"> sumvalue </span><span class="kwd">from</span><span class="pln"> table1
+</span><span class="pun">平均：</span><span class="kwd">select</span><span class="pln"> avg</span><span class="pun">(</span><span class="pln">field1</span><span class="pun">)</span><span class="pln"> </span><span class="kwd">as</span><span class="pln"> avgvalue </span><span class="kwd">from</span><span class="pln"> table1
+</span><span class="pun">最大：</span><span class="kwd">select</span><span class="pln"> max</span><span class="pun">(</span><span class="pln">field1</span><span class="pun">)</span><span class="pln"> </span><span class="kwd">as</span><span class="pln"> maxvalue </span><span class="kwd">from</span><span class="pln"> table1
+</span><span class="pun">最小：</span><span class="kwd">select</span><span class="pln"> min</span><span class="pun">(</span><span class="pln">field1</span><span class="pun">)</span><span class="pln"> </span><span class="kwd">as</span><span class="pln"> minvalue </span><span class="kwd">from</span><span class="pln"> table1
+</span><span class="lit">11</span><span class="pun">、说明：几个高级查询运算词</span><span class="pln">
+A</span><span class="pun">：</span><span class="pln"> UNION </span><span class="pun">运算符</span><span class="pln">
+UNION </span><span class="pun">运算符通过组合其他两个结果表（例如</span><span class="pln"> TABLE1 </span><span class="pun">和</span><span class="pln"> TABLE2</span><span class="pun">）并消去表中任何重复行而派生出一个结果表。当</span><span class="pln"> ALL </span><span class="pun">随</span><span class="pln"> UNION </span><span class="pun">一起使用时（即</span><span class="pln"> UNION ALL</span><span class="pun">），不消除重复行。两种情况下，派生表的每一行不是来自</span><span class="pln"> TABLE1 </span><span class="pun">就是来自</span><span class="pln"> TABLE2</span><span class="pun">。</span><span class="pln">
+B</span><span class="pun">：</span><span class="pln"> EXCEPT </span><span class="pun">运算符</span><span class="pln">
+EXCEPT </span><span class="pun">运算符通过包括所有在</span><span class="pln"> TABLE1 </span><span class="pun">中但不在</span><span class="pln"> TABLE2 </span><span class="pun">中的行并消除所有重复行而派生出一个结果表。当</span><span class="pln"> ALL </span><span class="pun">随</span><span class="pln"> EXCEPT </span><span class="pun">一起使用时</span><span class="pln"> </span><span class="pun">(</span><span class="pln">EXCEPT ALL</span><span class="pun">)，不消除重复行。</span><span class="pln">
+C</span><span class="pun">：</span><span class="pln"> INTERSECT </span><span class="pun">运算符</span><span class="pln">
+INTERSECT </span><span class="pun">运算符通过只包括</span><span class="pln"> TABLE1 </span><span class="pun">和</span><span class="pln"> TABLE2 </span><span class="pun">中都有的行并消除所有重复行而派生出一个结果表。当</span><span class="pln"> ALL </span><span class="pun">随</span><span class="pln"> INTERSECT </span><span class="pun">一起使用时</span><span class="pln"> </span><span class="pun">(</span><span class="pln">INTERSECT ALL</span><span class="pun">)，不消除重复行。</span><span class="pln">
+</span><span class="pun">注：使用运算词的几个查询结果行必须是一致的。</span><span class="pln">
+</span><span class="lit">12</span><span class="pun">、说明：使用外连接</span><span class="pln">
+A</span><span class="pun">、</span><span class="pln">left </span><span class="pun">（</span><span class="pln">outer</span><span class="pun">）</span><span class="pln"> join</span><span class="pun">：</span><span class="pln">
+</span><span class="pun">左外连接（左连接）：结果集几包括连接表的匹配行，也包括左连接表的所有行。</span><span class="pln">
+SQL</span><span class="pun">:</span><span class="pln"> </span><span class="kwd">select</span><span class="pln"> a</span><span class="pun">.</span><span class="pln">a</span><span class="pun">,</span><span class="pln"> a</span><span class="pun">.</span><span class="pln">b</span><span class="pun">,</span><span class="pln"> a</span><span class="pun">.</span><span class="pln">c</span><span class="pun">,</span><span class="pln"> b</span><span class="pun">.</span><span class="pln">c</span><span class="pun">,</span><span class="pln"> b</span><span class="pun">.</span><span class="pln">d</span><span class="pun">,</span><span class="pln"> b</span><span class="pun">.</span><span class="pln">f </span><span class="kwd">from</span><span class="pln"> a LEFT OUT JOIN b ON a</span><span class="pun">.</span><span class="pln">a </span><span class="pun">=</span><span class="pln"> b</span><span class="pun">.</span><span class="pln">c
+B</span><span class="pun">：</span><span class="pln">right </span><span class="pun">（</span><span class="pln">outer</span><span class="pun">）</span><span class="pln"> join</span><span class="pun">:</span><span class="pln">
+</span><span class="pun">右外连接(右连接)：结果集既包括连接表的匹配连接行，也包括右连接表的所有行。</span><span class="pln">
+C</span><span class="pun">：</span><span class="pln">full</span><span class="pun">/</span><span class="pln">cross </span><span class="pun">（</span><span class="pln">outer</span><span class="pun">）</span><span class="pln"> join</span><span class="pun">：</span><span class="pln">
+</span><span class="pun">全外连接：不仅包括符号连接表的匹配行，还包括两个连接表中的所有记录。</span><span class="pln">
+</span><span class="lit">12</span><span class="pun">、分组:</span><span class="typ">Group</span><span class="pln"> </span><span class="kwd">by</span><span class="pun">:</span><span class="pln">
+  </span><span class="pun">一张表，一旦分组完成后，查询后只能得到组相关的信息。</span><span class="pln">
+ </span><span class="pun">组相关的信息：（统计信息）</span><span class="pln"> count</span><span class="pun">,</span><span class="pln">sum</span><span class="pun">,</span><span class="pln">max</span><span class="pun">,</span><span class="pln">min</span><span class="pun">,</span><span class="pln">avg  </span><span class="pun">分组的标准)</span><span class="pln">
+    </span><span class="pun">在</span><span class="typ">SQLServer</span><span class="pun">中分组时：不能以</span><span class="pln">text</span><span class="pun">,</span><span class="pln">ntext</span><span class="pun">,</span><span class="pln">image</span><span class="pun">类型的字段作为分组依据</span><span class="pln">
+ </span><span class="pun">在</span><span class="pln">selecte</span><span class="pun">统计函数中的字段，不能和普通的字段放在一起；</span><span class="pln">
+</span><span class="lit">13</span><span class="pun">、对数据库进行操作：</span><span class="pln">
+ </span><span class="pun">分离数据库：</span><span class="pln"> sp_detach_db</span><span class="pun">;</span><span class="pln"> </span><span class="pun">附加数据库：</span><span class="pln">sp_attach_db </span><span class="pun">后接表明，附加需要完整的路径名</span><span class="pln">
+</span><span class="lit">14.</span><span class="pun">如何修改数据库的名称:</span><span class="pln">
+sp_renamedb </span><span class="str">'old_name'</span><span class="pun">,</span><span class="pln"> </span><span class="str">'new_name'</span><span class="pln">
+ 
+</span><span class="pun">二、提升</span><span class="pln">
+</span><span class="lit">1</span><span class="pun">、说明：复制表(只复制结构,源表名：</span><span class="pln">a </span><span class="pun">新表名：</span><span class="pln">b</span><span class="pun">)</span><span class="pln"> </span><span class="pun">(</span><span class="typ">Access</span><span class="pun">可用)</span><span class="pln">
+</span><span class="pun">法一：</span><span class="kwd">select</span><span class="pln"> </span><span class="pun">*</span><span class="pln"> </span><span class="kwd">into</span><span class="pln"> b </span><span class="kwd">from</span><span class="pln"> a </span><span class="kwd">where</span><span class="pln"> </span><span class="lit">1</span><span class="pun">&lt;&gt;</span><span class="lit">1</span><span class="pun">（仅用于</span><span class="typ">SQlServer</span><span class="pun">）</span><span class="pln">
+</span><span class="pun">法二：</span><span class="kwd">select</span><span class="pln"> top </span><span class="lit">0</span><span class="pln"> </span><span class="pun">*</span><span class="pln"> </span><span class="kwd">into</span><span class="pln"> b </span><span class="kwd">from</span><span class="pln"> a
+</span><span class="lit">2</span><span class="pun">、说明：拷贝表(拷贝数据,源表名：</span><span class="pln">a </span><span class="pun">目标表名：</span><span class="pln">b</span><span class="pun">)</span><span class="pln"> </span><span class="pun">(</span><span class="typ">Access</span><span class="pun">可用)</span><span class="pln">
+insert </span><span class="kwd">into</span><span class="pln"> b</span><span class="pun">(</span><span class="pln">a</span><span class="pun">,</span><span class="pln"> b</span><span class="pun">,</span><span class="pln"> c</span><span class="pun">)</span><span class="pln"> </span><span class="kwd">select</span><span class="pln"> d</span><span class="pun">,</span><span class="pln">e</span><span class="pun">,</span><span class="pln">f </span><span class="kwd">from</span><span class="pln"> b</span><span class="pun">;</span><span class="pln">
+</span><span class="lit">3</span><span class="pun">、说明：跨数据库之间表的拷贝(具体数据使用绝对路径)</span><span class="pln"> </span><span class="pun">(</span><span class="typ">Access</span><span class="pun">可用)</span><span class="pln">
+insert </span><span class="kwd">into</span><span class="pln"> b</span><span class="pun">(</span><span class="pln">a</span><span class="pun">,</span><span class="pln"> b</span><span class="pun">,</span><span class="pln"> c</span><span class="pun">)</span><span class="pln"> </span><span class="kwd">select</span><span class="pln"> d</span><span class="pun">,</span><span class="pln">e</span><span class="pun">,</span><span class="pln">f </span><span class="kwd">from</span><span class="pln"> b </span><span class="kwd">in</span><span class="pln"> </span><span class="pun">‘具体数据库’</span><span class="pln"> </span><span class="kwd">where</span><span class="pln"> </span><span class="pun">条件</span><span class="pln">
+</span><span class="pun">例子：..</span><span class="kwd">from</span><span class="pln"> b </span><span class="kwd">in</span><span class="pln"> </span><span class="str">'"&amp;Server.MapPath(".")&amp;"\data.mdb" &amp;"'</span><span class="pln"> </span><span class="kwd">where</span><span class="pun">..</span><span class="pln">
+</span><span class="lit">4</span><span class="pun">、说明：子查询(表名</span><span class="lit">1</span><span class="pun">：</span><span class="pln">a </span><span class="pun">表名</span><span class="lit">2</span><span class="pun">：</span><span class="pln">b</span><span class="pun">)</span><span class="pln">
+</span><span class="kwd">select</span><span class="pln"> a</span><span class="pun">,</span><span class="pln">b</span><span class="pun">,</span><span class="pln">c </span><span class="kwd">from</span><span class="pln"> a </span><span class="kwd">where</span><span class="pln"> a IN </span><span class="pun">(</span><span class="kwd">select</span><span class="pln"> d </span><span class="kwd">from</span><span class="pln"> b </span><span class="pun">)</span><span class="pln"> </span><span class="pun">或者:</span><span class="pln"> </span><span class="kwd">select</span><span class="pln"> a</span><span class="pun">,</span><span class="pln">b</span><span class="pun">,</span><span class="pln">c </span><span class="kwd">from</span><span class="pln"> a </span><span class="kwd">where</span><span class="pln"> a IN </span><span class="pun">(</span><span class="lit">1</span><span class="pun">,</span><span class="lit">2</span><span class="pun">,</span><span class="lit">3</span><span class="pun">)</span><span class="pln">
+</span><span class="lit">5</span><span class="pun">、说明：显示文章、提交人和最后回复时间</span><span class="pln">
+</span><span class="kwd">select</span><span class="pln"> a</span><span class="pun">.</span><span class="pln">title</span><span class="pun">,</span><span class="pln">a</span><span class="pun">.</span><span class="pln">username</span><span class="pun">,</span><span class="pln">b</span><span class="pun">.</span><span class="pln">adddate </span><span class="kwd">from</span><span class="pln"> table a</span><span class="pun">,(</span><span class="kwd">select</span><span class="pln"> max</span><span class="pun">(</span><span class="pln">adddate</span><span class="pun">)</span><span class="pln"> adddate </span><span class="kwd">from</span><span class="pln"> table </span><span class="kwd">where</span><span class="pln"> table</span><span class="pun">.</span><span class="pln">title</span><span class="pun">=</span><span class="pln">a</span><span class="pun">.</span><span class="pln">title</span><span class="pun">)</span><span class="pln"> b
+</span><span class="lit">6</span><span class="pun">、说明：外连接查询(表名</span><span class="lit">1</span><span class="pun">：</span><span class="pln">a </span><span class="pun">表名</span><span class="lit">2</span><span class="pun">：</span><span class="pln">b</span><span class="pun">)</span><span class="pln">
+</span><span class="kwd">select</span><span class="pln"> a</span><span class="pun">.</span><span class="pln">a</span><span class="pun">,</span><span class="pln"> a</span><span class="pun">.</span><span class="pln">b</span><span class="pun">,</span><span class="pln"> a</span><span class="pun">.</span><span class="pln">c</span><span class="pun">,</span><span class="pln"> b</span><span class="pun">.</span><span class="pln">c</span><span class="pun">,</span><span class="pln"> b</span><span class="pun">.</span><span class="pln">d</span><span class="pun">,</span><span class="pln"> b</span><span class="pun">.</span><span class="pln">f </span><span class="kwd">from</span><span class="pln"> a LEFT OUT JOIN b ON a</span><span class="pun">.</span><span class="pln">a </span><span class="pun">=</span><span class="pln"> b</span><span class="pun">.</span><span class="pln">c
+</span><span class="lit">7</span><span class="pun">、说明：在线视图查询(表名</span><span class="lit">1</span><span class="pun">：</span><span class="pln">a </span><span class="pun">)</span><span class="pln">
+</span><span class="kwd">select</span><span class="pln"> </span><span class="pun">*</span><span class="pln"> </span><span class="kwd">from</span><span class="pln"> </span><span class="pun">(</span><span class="pln">SELECT a</span><span class="pun">,</span><span class="pln">b</span><span class="pun">,</span><span class="pln">c FROM a</span><span class="pun">)</span><span class="pln"> T </span><span class="kwd">where</span><span class="pln"> t</span><span class="pun">.</span><span class="pln">a </span><span class="pun">&gt;</span><span class="pln"> </span><span class="lit">1</span><span class="pun">;</span><span class="pln">
+</span><span class="lit">8</span><span class="pun">、说明：</span><span class="pln">between</span><span class="pun">的用法,</span><span class="pln">between</span><span class="pun">限制查询数据范围时包括了边界值,</span><span class="kwd">not</span><span class="pln"> between</span><span class="pun">不包括</span><span class="pln">
+</span><span class="kwd">select</span><span class="pln"> </span><span class="pun">*</span><span class="pln"> </span><span class="kwd">from</span><span class="pln"> table1 </span><span class="kwd">where</span><span class="pln"> time between time1 </span><span class="kwd">and</span><span class="pln"> time2
+</span><span class="kwd">select</span><span class="pln"> a</span><span class="pun">,</span><span class="pln">b</span><span class="pun">,</span><span class="pln">c</span><span class="pun">,</span><span class="pln"> </span><span class="kwd">from</span><span class="pln"> table1 </span><span class="kwd">where</span><span class="pln"> a </span><span class="kwd">not</span><span class="pln"> between </span><span class="pun">数值</span><span class="lit">1</span><span class="pln"> </span><span class="kwd">and</span><span class="pln"> </span><span class="pun">数值</span><span class="lit">2</span><span class="pln">
+</span><span class="lit">9</span><span class="pun">、说明：</span><span class="kwd">in</span><span class="pln"> </span><span class="pun">的使用方法</span><span class="pln">
+</span><span class="kwd">select</span><span class="pln"> </span><span class="pun">*</span><span class="pln"> </span><span class="kwd">from</span><span class="pln"> table1 </span><span class="kwd">where</span><span class="pln"> a </span><span class="pun">[</span><span class="kwd">not</span><span class="pun">]</span><span class="pln"> </span><span class="kwd">in</span><span class="pln"> </span><span class="pun">(‘值</span><span class="lit">1</span><span class="pun">’,’值</span><span class="lit">2</span><span class="pun">’,’值</span><span class="lit">4</span><span class="pun">’,’值</span><span class="lit">6</span><span class="pun">’)</span><span class="pln">
+</span><span class="lit">10</span><span class="pun">、说明：两张关联表，删除主表中已经在副表中没有的信息</span><span class="pln">
+</span><span class="kwd">delete</span><span class="pln"> </span><span class="kwd">from</span><span class="pln"> table1 </span><span class="kwd">where</span><span class="pln"> </span><span class="kwd">not</span><span class="pln"> exists </span><span class="pun">(</span><span class="pln"> </span><span class="kwd">select</span><span class="pln"> </span><span class="pun">*</span><span class="pln"> </span><span class="kwd">from</span><span class="pln"> table2 </span><span class="kwd">where</span><span class="pln"> table1</span><span class="pun">.</span><span class="pln">field1</span><span class="pun">=</span><span class="pln">table2</span><span class="pun">.</span><span class="pln">field1 </span><span class="pun">)</span><span class="pln">
+</span><span class="lit">11</span><span class="pun">、说明：四表联查问题：</span><span class="pln">
+</span><span class="kwd">select</span><span class="pln"> </span><span class="pun">*</span><span class="pln"> </span><span class="kwd">from</span><span class="pln"> a left inner join b on a</span><span class="pun">.</span><span class="pln">a</span><span class="pun">=</span><span class="pln">b</span><span class="pun">.</span><span class="pln">b right inner join c on a</span><span class="pun">.</span><span class="pln">a</span><span class="pun">=</span><span class="pln">c</span><span class="pun">.</span><span class="pln">c inner join d on a</span><span class="pun">.</span><span class="pln">a</span><span class="pun">=</span><span class="pln">d</span><span class="pun">.</span><span class="pln">d </span><span class="kwd">where</span><span class="pln"> </span><span class="pun">.....</span><span class="pln">
+</span><span class="lit">12</span><span class="pun">、说明：日程安排提前五分钟提醒</span><span class="pln">
+SQL</span><span class="pun">:</span><span class="pln"> </span><span class="kwd">select</span><span class="pln"> </span><span class="pun">*</span><span class="pln"> </span><span class="kwd">from</span><span class="pln"> </span><span class="pun">日程安排</span><span class="pln"> </span><span class="kwd">where</span><span class="pln"> datediff</span><span class="pun">(</span><span class="str">'minute'</span><span class="pun">,</span><span class="pln">f</span><span class="pun">开始时间,</span><span class="pln">getdate</span><span class="pun">())&gt;</span><span class="lit">5</span><span class="pln">
+</span><span class="lit">13</span><span class="pun">、说明：一条</span><span class="pln">sql </span><span class="pun">语句搞定数据库分页</span><span class="pln">
+</span><span class="kwd">select</span><span class="pln"> top </span><span class="lit">10</span><span class="pln"> b</span><span class="pun">.*</span><span class="pln"> </span><span class="kwd">from</span><span class="pln"> </span><span class="pun">(</span><span class="kwd">select</span><span class="pln"> top </span><span class="lit">20</span><span class="pln"> </span><span class="pun">主键字段,排序字段</span><span class="pln"> </span><span class="kwd">from</span><span class="pln"> </span><span class="pun">表名</span><span class="pln"> order </span><span class="kwd">by</span><span class="pln"> </span><span class="pun">排序字段</span><span class="pln"> desc</span><span class="pun">)</span><span class="pln"> a</span><span class="pun">,表名</span><span class="pln"> b </span><span class="kwd">where</span><span class="pln"> b</span><span class="pun">.主键字段</span><span class="pln"> </span><span class="pun">=</span><span class="pln"> a</span><span class="pun">.主键字段</span><span class="pln"> order </span><span class="kwd">by</span><span class="pln"> a</span><span class="pun">.排序字段</span><span class="pln">
+</span><span class="pun">具体实现：</span><span class="pln">
+</span><span class="pun">关于数据库分页：</span><span class="pln">
+  declare </span><span class="lit">@start</span><span class="pln"> </span><span class="kwd">int</span><span class="pun">,</span><span class="lit">@end</span><span class="pln"> </span><span class="kwd">int</span><span class="pln">
+  </span><span class="lit">@sql</span><span class="pln">  nvarchar</span><span class="pun">(</span><span class="lit">600</span><span class="pun">)</span><span class="pln">
+  </span><span class="kwd">set</span><span class="pln"> </span><span class="lit">@sql</span><span class="pun">=’</span><span class="kwd">select</span><span class="pln"> top</span><span class="pun">’+</span><span class="pln">str</span><span class="pun">(</span><span class="lit">@end</span><span class="pun">-</span><span class="lit">@start</span><span class="pun">+</span><span class="lit">1</span><span class="pun">)+’+</span><span class="kwd">from</span><span class="pln"> T </span><span class="kwd">where</span><span class="pln"> rid </span><span class="kwd">not</span><span class="pln"> </span><span class="kwd">in</span><span class="pun">(</span><span class="kwd">select</span><span class="pln"> top</span><span class="pun">’+</span><span class="pln">str</span><span class="pun">(</span><span class="lit">@str</span><span class="pun">-</span><span class="lit">1</span><span class="pun">)+’</span><span class="typ">Rid</span><span class="pln"> </span><span class="kwd">from</span><span class="pln"> T </span><span class="kwd">where</span><span class="pln"> </span><span class="typ">Rid</span><span class="pun">&gt;-</span><span class="lit">1</span><span class="pun">)’</span><span class="pln">
+  </span><span class="kwd">exec</span><span class="pln"> sp_executesql </span><span class="lit">@sql</span><span class="pln">
+ 
+</span><span class="pun">注意：在</span><span class="pln">top</span><span class="pun">后不能直接跟一个变量，所以在实际应用中只有这样的进行特殊的处理。</span><span class="typ">Rid</span><span class="pun">为一个标识列，如果</span><span class="pln">top</span><span class="pun">后还有具体的字段，这样做是非常有好处的。因为这样可以避免</span><span class="pln"> top</span><span class="pun">的字段如果是逻辑索引的，查询的结果后实际表中的不一致（逻辑索引中的数据有可能和数据表中的不一致，而查询时如果处在索引则首先查询索引）</span><span class="pln">
+</span><span class="lit">14</span><span class="pun">、说明：前</span><span class="lit">10</span><span class="pun">条记录</span><span class="pln">
+</span><span class="kwd">select</span><span class="pln"> top </span><span class="lit">10</span><span class="pln"> </span><span class="pun">*</span><span class="pln"> form table1 </span><span class="kwd">where</span><span class="pln"> </span><span class="pun">范围</span><span class="pln">
+</span><span class="lit">15</span><span class="pun">、说明：选择在每一组</span><span class="pln">b</span><span class="pun">值相同的数据中对应的</span><span class="pln">a</span><span class="pun">最大的记录的所有信息(类似这样的用法可以用于论坛每月排行榜,每月热销产品分析,按科目成绩排名,等等.)</span><span class="pln">
+</span><span class="kwd">select</span><span class="pln"> a</span><span class="pun">,</span><span class="pln">b</span><span class="pun">,</span><span class="pln">c </span><span class="kwd">from</span><span class="pln"> tablename ta </span><span class="kwd">where</span><span class="pln"> a</span><span class="pun">=(</span><span class="kwd">select</span><span class="pln"> max</span><span class="pun">(</span><span class="pln">a</span><span class="pun">)</span><span class="pln"> </span><span class="kwd">from</span><span class="pln"> tablename tb </span><span class="kwd">where</span><span class="pln"> tb</span><span class="pun">.</span><span class="pln">b</span><span class="pun">=</span><span class="pln">ta</span><span class="pun">.</span><span class="pln">b</span><span class="pun">)</span><span class="pln">
+</span><span class="lit">16</span><span class="pun">、说明：包括所有在</span><span class="pln"> </span><span class="typ">TableA</span><span class="pln"> </span><span class="pun">中但不在</span><span class="pln"> </span><span class="typ">TableB</span><span class="pun">和</span><span class="typ">TableC</span><span class="pln"> </span><span class="pun">中的行并消除所有重复行而派生出一个结果表</span><span class="pln">
+</span><span class="pun">(</span><span class="kwd">select</span><span class="pln"> a </span><span class="kwd">from</span><span class="pln"> tableA </span><span class="pun">)</span><span class="pln"> </span><span class="kwd">except</span><span class="pln"> </span><span class="pun">(</span><span class="kwd">select</span><span class="pln"> a </span><span class="kwd">from</span><span class="pln"> tableB</span><span class="pun">)</span><span class="pln"> </span><span class="kwd">except</span><span class="pln"> </span><span class="pun">(</span><span class="kwd">select</span><span class="pln"> a </span><span class="kwd">from</span><span class="pln"> tableC</span><span class="pun">)</span><span class="pln">
+</span><span class="lit">17</span><span class="pun">、说明：随机取出</span><span class="lit">10</span><span class="pun">条数据</span><span class="pln">
+</span><span class="kwd">select</span><span class="pln"> top </span><span class="lit">10</span><span class="pln"> </span><span class="pun">*</span><span class="pln"> </span><span class="kwd">from</span><span class="pln"> tablename order </span><span class="kwd">by</span><span class="pln"> newid</span><span class="pun">()</span><span class="pln">
+</span><span class="lit">18</span><span class="pun">、说明：随机选择记录</span><span class="pln">
+</span><span class="kwd">select</span><span class="pln"> newid</span><span class="pun">()</span><span class="pln">
+</span><span class="lit">19</span><span class="pun">、说明：删除重复记录</span><span class="pln">
+</span><span class="lit">1</span><span class="pun">),</span><span class="kwd">delete</span><span class="pln"> </span><span class="kwd">from</span><span class="pln"> tablename </span><span class="kwd">where</span><span class="pln"> id </span><span class="kwd">not</span><span class="pln"> </span><span class="kwd">in</span><span class="pln"> </span><span class="pun">(</span><span class="kwd">select</span><span class="pln"> max</span><span class="pun">(</span><span class="pln">id</span><span class="pun">)</span><span class="pln"> </span><span class="kwd">from</span><span class="pln"> tablename </span><span class="kwd">group</span><span class="pln"> </span><span class="kwd">by</span><span class="pln"> col1</span><span class="pun">,</span><span class="pln">col2</span><span class="pun">,...)</span><span class="pln">
+</span><span class="lit">2</span><span class="pun">),</span><span class="kwd">select</span><span class="pln"> distinct </span><span class="pun">*</span><span class="pln"> </span><span class="kwd">into</span><span class="pln"> temp </span><span class="kwd">from</span><span class="pln"> tablename
+  </span><span class="kwd">delete</span><span class="pln"> </span><span class="kwd">from</span><span class="pln"> tablename
+  insert </span><span class="kwd">into</span><span class="pln"> tablename </span><span class="kwd">select</span><span class="pln"> </span><span class="pun">*</span><span class="pln"> </span><span class="kwd">from</span><span class="pln"> temp
+</span><span class="pun">评价：</span><span class="pln"> </span><span class="pun">这种操作牵连大量的数据的移动，这种做法不适合大容量但数据操作</span><span class="pln">
+</span><span class="lit">3</span><span class="pun">),例如：在一个外部表中导入数据，由于某些原因第一次只导入了一部分，但很难判断具体位置，这样只有在下一次全部导入，这样也就产生好多重复的字段，怎样删除重复字段</span><span class="pln">
+alter table tablename
+</span><span class="pun">--添加一个自增列</span><span class="pln">
+add  column_b </span><span class="kwd">int</span><span class="pln"> identity</span><span class="pun">(</span><span class="lit">1</span><span class="pun">,</span><span class="lit">1</span><span class="pun">)</span><span class="pln">
+ </span><span class="kwd">delete</span><span class="pln"> </span><span class="kwd">from</span><span class="pln"> tablename </span><span class="kwd">where</span><span class="pln"> column_b </span><span class="kwd">not</span><span class="pln"> </span><span class="kwd">in</span><span class="pun">(</span><span class="pln">
+</span><span class="kwd">select</span><span class="pln"> max</span><span class="pun">(</span><span class="pln">column_b</span><span class="pun">)</span><span class="pln">  </span><span class="kwd">from</span><span class="pln"> tablename </span><span class="kwd">group</span><span class="pln"> </span><span class="kwd">by</span><span class="pln"> column1</span><span class="pun">,</span><span class="pln">column2</span><span class="pun">,...)</span><span class="pln">
+alter table tablename drop column column_b
+</span><span class="lit">20</span><span class="pun">、说明：列出数据库里所有的表名</span><span class="pln">
+</span><span class="kwd">select</span><span class="pln"> name </span><span class="kwd">from</span><span class="pln"> sysobjects </span><span class="kwd">where</span><span class="pln"> type</span><span class="pun">=</span><span class="str">'U'</span><span class="pln"> </span><span class="com">// U代表用户</span><span class="pln">
+</span><span class="lit">21</span><span class="pun">、说明：列出表里的所有的列名</span><span class="pln">
+</span><span class="kwd">select</span><span class="pln"> name </span><span class="kwd">from</span><span class="pln"> syscolumns </span><span class="kwd">where</span><span class="pln"> id</span><span class="pun">=</span><span class="pln">object_id</span><span class="pun">(</span><span class="str">'TableName'</span><span class="pun">)</span><span class="pln">
+</span><span class="lit">22</span><span class="pun">、说明：列示</span><span class="pln">type</span><span class="pun">、</span><span class="pln">vender</span><span class="pun">、</span><span class="pln">pcs</span><span class="pun">字段，以</span><span class="pln">type</span><span class="pun">字段排列，</span><span class="kwd">case</span><span class="pun">可以方便地实现多重选择，类似</span><span class="kwd">select</span><span class="pln"> </span><span class="pun">中的</span><span class="kwd">case</span><span class="pun">。</span><span class="pln">
+</span><span class="kwd">select</span><span class="pln"> type</span><span class="pun">,</span><span class="pln">sum</span><span class="pun">(</span><span class="kwd">case</span><span class="pln"> vender </span><span class="kwd">when</span><span class="pln"> </span><span class="str">'A'</span><span class="pln"> </span><span class="kwd">then</span><span class="pln"> pcs </span><span class="kwd">else</span><span class="pln"> </span><span class="lit">0</span><span class="pln"> </span><span class="kwd">end</span><span class="pun">),</span><span class="pln">sum</span><span class="pun">(</span><span class="kwd">case</span><span class="pln"> vender </span><span class="kwd">when</span><span class="pln"> </span><span class="str">'C'</span><span class="pln"> </span><span class="kwd">then</span><span class="pln"> pcs </span><span class="kwd">else</span><span class="pln"> </span><span class="lit">0</span><span class="pln"> </span><span class="kwd">end</span><span class="pun">),</span><span class="pln">sum</span><span class="pun">(</span><span class="kwd">case</span><span class="pln"> vender </span><span class="kwd">when</span><span class="pln"> </span><span class="str">'B'</span><span class="pln"> </span><span class="kwd">then</span><span class="pln"> pcs </span><span class="kwd">else</span><span class="pln"> </span><span class="lit">0</span><span class="pln"> </span><span class="kwd">end</span><span class="pun">)</span><span class="pln"> FROM tablename </span><span class="kwd">group</span><span class="pln"> </span><span class="kwd">by</span><span class="pln"> type
+</span><span class="pun">显示结果：</span><span class="pln">
+type vender pcs
+</span><span class="pun">电脑</span><span class="pln"> A </span><span class="lit">1</span><span class="pln">
+</span><span class="pun">电脑</span><span class="pln"> A </span><span class="lit">1</span><span class="pln">
+</span><span class="pun">光盘</span><span class="pln"> B </span><span class="lit">2</span><span class="pln">
+</span><span class="pun">光盘</span><span class="pln"> A </span><span class="lit">2</span><span class="pln">
+</span><span class="pun">手机</span><span class="pln"> B </span><span class="lit">3</span><span class="pln">
+</span><span class="pun">手机</span><span class="pln"> C </span><span class="lit">3</span><span class="pln">
+</span><span class="lit">23</span><span class="pun">、说明：初始化表</span><span class="pln">table1
+TRUNCATE TABLE table1
+</span><span class="lit">24</span><span class="pun">、说明：选择从</span><span class="lit">10</span><span class="pun">到</span><span class="lit">15</span><span class="pun">的记录</span><span class="pln">
+</span><span class="kwd">select</span><span class="pln"> top </span><span class="lit">5</span><span class="pln"> </span><span class="pun">*</span><span class="pln"> </span><span class="kwd">from</span><span class="pln"> </span><span class="pun">(</span><span class="kwd">select</span><span class="pln"> top </span><span class="lit">15</span><span class="pln"> </span><span class="pun">*</span><span class="pln"> </span><span class="kwd">from</span><span class="pln"> table order </span><span class="kwd">by</span><span class="pln"> id asc</span><span class="pun">)</span><span class="pln"> table_</span><span class="pun">别名</span><span class="pln"> order </span><span class="kwd">by</span><span class="pln"> id desc
+</span><span class="pun">三、技巧</span><span class="pln">
+</span><span class="lit">1</span><span class="pun">、</span><span class="lit">1</span><span class="pun">=</span><span class="lit">1</span><span class="pun">，</span><span class="lit">1</span><span class="pun">=</span><span class="lit">2</span><span class="pun">的使用，在</span><span class="pln">SQL</span><span class="pun">语句组合时用的较多</span><span class="pln">
+</span><span class="pun">“</span><span class="kwd">where</span><span class="pln"> </span><span class="lit">1</span><span class="pun">=</span><span class="lit">1</span><span class="pun">”</span><span class="pln"> </span><span class="pun">是表示选择全部</span><span class="pln">    </span><span class="pun">“</span><span class="kwd">where</span><span class="pln"> </span><span class="lit">1</span><span class="pun">=</span><span class="lit">2</span><span class="pun">”全部不选，</span><span class="pln">
+</span><span class="pun">如：</span><span class="pln">
+</span><span class="kwd">if</span><span class="pln"> </span><span class="lit">@strWhere</span><span class="pln"> </span><span class="pun">!=</span><span class="str">''</span><span class="pln">
+</span><span class="kwd">begin</span><span class="pln">
+</span><span class="kwd">set</span><span class="pln"> </span><span class="lit">@strSQL</span><span class="pln"> </span><span class="pun">=</span><span class="pln"> </span><span class="str">'select count(*) as Total from ['</span><span class="pln"> </span><span class="pun">+</span><span class="pln"> </span><span class="lit">@tblName</span><span class="pln"> </span><span class="pun">+</span><span class="pln"> </span><span class="str">'] where '</span><span class="pln"> </span><span class="pun">+</span><span class="pln"> </span><span class="lit">@strWhere</span><span class="pln">
+</span><span class="kwd">end</span><span class="pln">
+</span><span class="kwd">else</span><span class="pln">
+</span><span class="kwd">begin</span><span class="pln">
+</span><span class="kwd">set</span><span class="pln"> </span><span class="lit">@strSQL</span><span class="pln"> </span><span class="pun">=</span><span class="pln"> </span><span class="str">'select count(*) as Total from ['</span><span class="pln"> </span><span class="pun">+</span><span class="pln"> </span><span class="lit">@tblName</span><span class="pln"> </span><span class="pun">+</span><span class="pln"> </span><span class="str">']'</span><span class="pln">
+</span><span class="kwd">end</span><span class="pln">
+</span><span class="pun">我们可以直接写成</span><span class="pln">
+</span><span class="pun">错误！未找到目录项。</span><span class="pln">
+</span><span class="kwd">set</span><span class="pln"> </span><span class="lit">@strSQL</span><span class="pln"> </span><span class="pun">=</span><span class="pln"> </span><span class="str">'select count(*) as Total from ['</span><span class="pln"> </span><span class="pun">+</span><span class="pln"> </span><span class="lit">@tblName</span><span class="pln"> </span><span class="pun">+</span><span class="pln"> </span><span class="str">'] where 1=1 安定 '</span><span class="pun">+</span><span class="pln"> </span><span class="lit">@strWhere</span><span class="pln"> </span><span class="lit">2</span><span class="pun">、收缩数据库</span><span class="pln">
+</span><span class="pun">--重建索引</span><span class="pln">
+DBCC REINDEX
+DBCC INDEXDEFRAG
+</span><span class="pun">--收缩数据和日志</span><span class="pln">
+DBCC SHRINKDB
+DBCC SHRINKFILE
+</span><span class="lit">3</span><span class="pun">、压缩数据库</span><span class="pln">
+dbcc shrinkdatabase</span><span class="pun">(</span><span class="pln">dbname</span><span class="pun">)</span><span class="pln">
+</span><span class="lit">4</span><span class="pun">、转移数据库给新用户以已存在用户权限</span><span class="pln">
+</span><span class="kwd">exec</span><span class="pln"> sp_change_users_login </span><span class="str">'update_one'</span><span class="pun">,</span><span class="str">'newname'</span><span class="pun">,</span><span class="str">'oldname'</span><span class="pln">
+go
+</span><span class="lit">5</span><span class="pun">、检查备份集</span><span class="pln">
+RESTORE VERIFYONLY </span><span class="kwd">from</span><span class="pln"> disk</span><span class="pun">=</span><span class="str">'E:\dvbbs.bak'</span><span class="pln">
+</span><span class="lit">6</span><span class="pun">、修复数据库</span><span class="pln">
+ALTER DATABASE </span><span class="pun">[</span><span class="pln">dvbbs</span><span class="pun">]</span><span class="pln"> SET SINGLE_USER
+GO
+DBCC CHECKDB</span><span class="pun">(</span><span class="str">'dvbbs'</span><span class="pun">,</span><span class="pln">repair_allow_data_loss</span><span class="pun">)</span><span class="pln"> WITH TABLOCK
+GO
+ALTER DATABASE </span><span class="pun">[</span><span class="pln">dvbbs</span><span class="pun">]</span><span class="pln"> SET MULTI_USER
+GO
+</span><span class="lit">7</span><span class="pun">、日志清除</span><span class="pln">
+SET NOCOUNT ON
+DECLARE </span><span class="lit">@LogicalFileName</span><span class="pln"> sysname</span><span class="pun">,</span><span class="pln">
+ </span><span class="lit">@MaxMinutes</span><span class="pln"> INT</span><span class="pun">,</span><span class="pln">
+ </span><span class="lit">@NewSize</span><span class="pln"> INT
+ 
+USE tablename </span><span class="pun">--</span><span class="pln"> </span><span class="pun">要操作的数据库名</span><span class="pln">
+SELECT  </span><span class="lit">@LogicalFileName</span><span class="pln"> </span><span class="pun">=</span><span class="pln"> </span><span class="str">'tablename_log'</span><span class="pun">,</span><span class="pln"> </span><span class="pun">--</span><span class="pln"> </span><span class="pun">日志文件名</span><span class="pln">
+</span><span class="lit">@MaxMinutes</span><span class="pln"> </span><span class="pun">=</span><span class="pln"> </span><span class="lit">10</span><span class="pun">,</span><span class="pln"> </span><span class="pun">--</span><span class="pln"> </span><span class="typ">Limit</span><span class="pln"> on time allowed to wrap log</span><span class="pun">.</span><span class="pln">
+ </span><span class="lit">@NewSize</span><span class="pln"> </span><span class="pun">=</span><span class="pln"> </span><span class="lit">1</span><span class="pln">  </span><span class="pun">--</span><span class="pln"> </span><span class="pun">你想设定的日志文件的大小(</span><span class="pln">M</span><span class="pun">)</span><span class="pln">
+</span><span class="typ">Setup</span><span class="pln"> </span><span class="pun">/</span><span class="pln"> initialize
+DECLARE </span><span class="lit">@OriginalSize</span><span class="pln"> </span><span class="kwd">int</span><span class="pln">
+SELECT </span><span class="lit">@OriginalSize</span><span class="pln"> </span><span class="pun">=</span><span class="pln"> size
+ FROM sysfiles
+ WHERE name </span><span class="pun">=</span><span class="pln"> </span><span class="lit">@LogicalFileName</span><span class="pln">
+SELECT </span><span class="str">'Original Size of '</span><span class="pln"> </span><span class="pun">+</span><span class="pln"> db_name</span><span class="pun">()</span><span class="pln"> </span><span class="pun">+</span><span class="pln"> </span><span class="str">' LOG is '</span><span class="pln"> </span><span class="pun">+</span><span class="pln">
+ CONVERT</span><span class="pun">(</span><span class="pln">VARCHAR</span><span class="pun">(</span><span class="lit">30</span><span class="pun">),</span><span class="lit">@OriginalSize</span><span class="pun">)</span><span class="pln"> </span><span class="pun">+</span><span class="pln"> </span><span class="str">' 8K pages or '</span><span class="pln"> </span><span class="pun">+</span><span class="pln">
+ CONVERT</span><span class="pun">(</span><span class="pln">VARCHAR</span><span class="pun">(</span><span class="lit">30</span><span class="pun">),(</span><span class="lit">@OriginalSize</span><span class="pun">*</span><span class="lit">8</span><span class="pun">/</span><span class="lit">1024</span><span class="pun">))</span><span class="pln"> </span><span class="pun">+</span><span class="pln"> </span><span class="str">'MB'</span><span class="pln">
+ FROM sysfiles
+ WHERE name </span><span class="pun">=</span><span class="pln"> </span><span class="lit">@LogicalFileName</span><span class="pln">
+CREATE TABLE </span><span class="typ">DummyTrans</span><span class="pln">
+ </span><span class="pun">(</span><span class="typ">DummyColumn</span><span class="pln"> </span><span class="kwd">char</span><span class="pln"> </span><span class="pun">(</span><span class="lit">8000</span><span class="pun">)</span><span class="pln"> </span><span class="kwd">not</span><span class="pln"> </span><span class="kwd">null</span><span class="pun">)</span><span class="pln">
+ 
+DECLARE </span><span class="lit">@Counter</span><span class="pln">    INT</span><span class="pun">,</span><span class="pln">
+ </span><span class="lit">@StartTime</span><span class="pln"> DATETIME</span><span class="pun">,</span><span class="pln">
+ </span><span class="lit">@TruncLog</span><span class="pln">   VARCHAR</span><span class="pun">(</span><span class="lit">255</span><span class="pun">)</span><span class="pln">
+SELECT </span><span class="lit">@StartTime</span><span class="pln"> </span><span class="pun">=</span><span class="pln"> GETDATE</span><span class="pun">(),</span><span class="pln">
+ </span><span class="lit">@TruncLog</span><span class="pln"> </span><span class="pun">=</span><span class="pln"> </span><span class="str">'BACKUP LOG '</span><span class="pln"> </span><span class="pun">+</span><span class="pln"> db_name</span><span class="pun">()</span><span class="pln"> </span><span class="pun">+</span><span class="pln"> </span><span class="str">' WITH TRUNCATE_ONLY'</span><span class="pln">
+DBCC SHRINKFILE </span><span class="pun">(</span><span class="lit">@LogicalFileName</span><span class="pun">,</span><span class="pln"> </span><span class="lit">@NewSize</span><span class="pun">)</span><span class="pln">
+EXEC </span><span class="pun">(</span><span class="lit">@TruncLog</span><span class="pun">)</span><span class="pln">
+</span><span class="pun">--</span><span class="pln"> </span><span class="typ">Wrap</span><span class="pln"> the log </span><span class="kwd">if</span><span class="pln"> necessary</span><span class="pun">.</span><span class="pln">
+WHILE </span><span class="lit">@MaxMinutes</span><span class="pln"> </span><span class="pun">&gt;</span><span class="pln"> DATEDIFF </span><span class="pun">(</span><span class="pln">mi</span><span class="pun">,</span><span class="pln"> </span><span class="lit">@StartTime</span><span class="pun">,</span><span class="pln"> GETDATE</span><span class="pun">())</span><span class="pln"> </span><span class="pun">--</span><span class="pln"> time has </span><span class="kwd">not</span><span class="pln"> expired
+ AND </span><span class="lit">@OriginalSize</span><span class="pln"> </span><span class="pun">=</span><span class="pln"> </span><span class="pun">(</span><span class="pln">SELECT size FROM sysfiles WHERE name </span><span class="pun">=</span><span class="pln"> </span><span class="lit">@LogicalFileName</span><span class="pun">)</span><span class="pln"> 
+ AND </span><span class="pun">(</span><span class="lit">@OriginalSize</span><span class="pln"> </span><span class="pun">*</span><span class="pln"> </span><span class="lit">8</span><span class="pln"> </span><span class="pun">/</span><span class="lit">1024</span><span class="pun">)</span><span class="pln"> </span><span class="pun">&gt;</span><span class="pln"> </span><span class="lit">@NewSize</span><span class="pln"> 
+ </span><span class="kwd">BEGIN</span><span class="pln"> </span><span class="pun">--</span><span class="pln"> </span><span class="typ">Outer</span><span class="pln"> loop</span><span class="pun">.</span><span class="pln">
+SELECT </span><span class="lit">@Counter</span><span class="pln"> </span><span class="pun">=</span><span class="pln"> </span><span class="lit">0</span><span class="pln">
+ WHILE   </span><span class="pun">((</span><span class="lit">@Counter</span><span class="pln"> </span><span class="pun">&lt;</span><span class="pln"> </span><span class="lit">@OriginalSize</span><span class="pln"> </span><span class="pun">/</span><span class="pln"> </span><span class="lit">16</span><span class="pun">)</span><span class="pln"> AND </span><span class="pun">(</span><span class="lit">@Counter</span><span class="pln"> </span><span class="pun">&lt;</span><span class="pln"> </span><span class="lit">50000</span><span class="pun">))</span><span class="pln">
+ </span><span class="kwd">BEGIN</span><span class="pln"> </span><span class="pun">--</span><span class="pln"> update
+ INSERT </span><span class="typ">DummyTrans</span><span class="pln"> VALUES </span><span class="pun">(</span><span class="str">'Fill Log'</span><span class="pun">)</span><span class="pln"> DELETE </span><span class="typ">DummyTrans</span><span class="pln">
+ SELECT </span><span class="lit">@Counter</span><span class="pln"> </span><span class="pun">=</span><span class="pln"> </span><span class="lit">@Counter</span><span class="pln"> </span><span class="pun">+</span><span class="pln"> </span><span class="lit">1</span><span class="pln">
+ </span><span class="kwd">END</span><span class="pln">
+ EXEC </span><span class="pun">(</span><span class="lit">@TruncLog</span><span class="pun">)</span><span class="pln"> 
+ </span><span class="kwd">END</span><span class="pln">
+SELECT </span><span class="str">'Final Size of '</span><span class="pln"> </span><span class="pun">+</span><span class="pln"> db_name</span><span class="pun">()</span><span class="pln"> </span><span class="pun">+</span><span class="pln"> </span><span class="str">' LOG is '</span><span class="pln"> </span><span class="pun">+</span><span class="pln">
+ CONVERT</span><span class="pun">(</span><span class="pln">VARCHAR</span><span class="pun">(</span><span class="lit">30</span><span class="pun">),</span><span class="pln">size</span><span class="pun">)</span><span class="pln"> </span><span class="pun">+</span><span class="pln"> </span><span class="str">' 8K pages or '</span><span class="pln"> </span><span class="pun">+</span><span class="pln">
+ CONVERT</span><span class="pun">(</span><span class="pln">VARCHAR</span><span class="pun">(</span><span class="lit">30</span><span class="pun">),(</span><span class="pln">size</span><span class="pun">*</span><span class="lit">8</span><span class="pun">/</span><span class="lit">1024</span><span class="pun">))</span><span class="pln"> </span><span class="pun">+</span><span class="pln"> </span><span class="str">'MB'</span><span class="pln">
+ FROM sysfiles
+ WHERE name </span><span class="pun">=</span><span class="pln"> </span><span class="lit">@LogicalFileName</span><span class="pln">
+DROP TABLE </span><span class="typ">DummyTrans</span><span class="pln">
+SET NOCOUNT OFF
+</span><span class="lit">8</span><span class="pun">、说明：更改某个表</span><span class="pln">
+</span><span class="kwd">exec</span><span class="pln"> sp_changeobjectowner </span><span class="str">'tablename'</span><span class="pun">,</span><span class="str">'dbo'</span><span class="pln">
+</span><span class="lit">9</span><span class="pun">、存储更改全部表</span><span class="pln">
+CREATE PROCEDURE dbo</span><span class="pun">.</span><span class="typ">User_ChangeObjectOwnerBatch</span><span class="pln">
+</span><span class="lit">@OldOwner</span><span class="pln"> </span><span class="kwd">as</span><span class="pln"> NVARCHAR</span><span class="pun">(</span><span class="lit">128</span><span class="pun">),</span><span class="pln">
+</span><span class="lit">@NewOwner</span><span class="pln"> </span><span class="kwd">as</span><span class="pln"> NVARCHAR</span><span class="pun">(</span><span class="lit">128</span><span class="pun">)</span><span class="pln">
+AS
+DECLARE </span><span class="lit">@Name</span><span class="pln">    </span><span class="kwd">as</span><span class="pln"> NVARCHAR</span><span class="pun">(</span><span class="lit">128</span><span class="pun">)</span><span class="pln">
+DECLARE </span><span class="lit">@Owner</span><span class="pln">   </span><span class="kwd">as</span><span class="pln"> NVARCHAR</span><span class="pun">(</span><span class="lit">128</span><span class="pun">)</span><span class="pln">
+DECLARE </span><span class="lit">@OwnerName</span><span class="pln">   </span><span class="kwd">as</span><span class="pln"> NVARCHAR</span><span class="pun">(</span><span class="lit">128</span><span class="pun">)</span><span class="pln">
+DECLARE curObject CURSOR FOR
+</span><span class="kwd">select</span><span class="pln"> </span><span class="str">'Name'</span><span class="pln">    </span><span class="pun">=</span><span class="pln"> name</span><span class="pun">,</span><span class="pln">
+   </span><span class="str">'Owner'</span><span class="pln">    </span><span class="pun">=</span><span class="pln"> user_name</span><span class="pun">(</span><span class="pln">uid</span><span class="pun">)</span><span class="pln">
+</span><span class="kwd">from</span><span class="pln"> sysobjects
+</span><span class="kwd">where</span><span class="pln"> user_name</span><span class="pun">(</span><span class="pln">uid</span><span class="pun">)=</span><span class="lit">@OldOwner</span><span class="pln">
+order </span><span class="kwd">by</span><span class="pln"> name
+OPEN   curObject
+FETCH NEXT FROM curObject INTO </span><span class="lit">@Name</span><span class="pun">,</span><span class="pln"> </span><span class="lit">@Owner</span><span class="pln">
+WHILE</span><span class="pun">(@</span><span class="lit">@FETCH_STATUS</span><span class="pun">=</span><span class="lit">0</span><span class="pun">)</span><span class="pln">
+</span><span class="kwd">BEGIN</span><span class="pln">   
+</span><span class="kwd">if</span><span class="pln"> </span><span class="lit">@Owner</span><span class="pun">=</span><span class="lit">@OldOwner</span><span class="pln">
+</span><span class="kwd">begin</span><span class="pln">
+   </span><span class="kwd">set</span><span class="pln"> </span><span class="lit">@OwnerName</span><span class="pln"> </span><span class="pun">=</span><span class="pln"> </span><span class="lit">@OldOwner</span><span class="pln"> </span><span class="pun">+</span><span class="pln"> </span><span class="str">'.'</span><span class="pln"> </span><span class="pun">+</span><span class="pln"> rtrim</span><span class="pun">(</span><span class="lit">@Name</span><span class="pun">)</span><span class="pln">
+   </span><span class="kwd">exec</span><span class="pln"> sp_changeobjectowner </span><span class="lit">@OwnerName</span><span class="pun">,</span><span class="pln"> </span><span class="lit">@NewOwner</span><span class="pln">
+</span><span class="kwd">end</span><span class="pln">
+</span><span class="pun">--</span><span class="pln"> </span><span class="kwd">select</span><span class="pln"> </span><span class="lit">@name</span><span class="pun">,</span><span class="lit">@NewOwner</span><span class="pun">,</span><span class="lit">@OldOwner</span><span class="pln">
+FETCH NEXT FROM curObject INTO </span><span class="lit">@Name</span><span class="pun">,</span><span class="pln"> </span><span class="lit">@Owner</span><span class="pln">
+</span><span class="kwd">END</span><span class="pln">
+close curObject
+deallocate curObject
+GO
+ 
+</span><span class="lit">10</span><span class="pun">、</span><span class="pln">SQL SERVER</span><span class="pun">中直接循环写入数据</span><span class="pln">
+declare </span><span class="lit">@i</span><span class="pln"> </span><span class="kwd">int</span><span class="pln">
+</span><span class="kwd">set</span><span class="pln"> </span><span class="lit">@i</span><span class="pun">=</span><span class="lit">1</span><span class="pln">
+</span><span class="kwd">while</span><span class="pln"> </span><span class="lit">@i</span><span class="pun">&lt;</span><span class="lit">30</span><span class="pln">
+</span><span class="kwd">begin</span><span class="pln">
+    insert </span><span class="kwd">into</span><span class="pln"> test </span><span class="pun">(</span><span class="pln">userid</span><span class="pun">)</span><span class="pln"> values</span><span class="pun">(</span><span class="lit">@i</span><span class="pun">)</span><span class="pln">
+    </span><span class="kwd">set</span><span class="pln"> </span><span class="lit">@i</span><span class="pun">=</span><span class="lit">@i</span><span class="pun">+</span><span class="lit">1</span><span class="pln">
+</span><span class="kwd">end</span><span class="pln">
+</span><span class="pun">案例：</span><span class="pln">
+</span><span class="pun">有如下表，要求就裱中所有沒有及格的成績，在每次增長</span><span class="lit">0.1</span><span class="pun">的基礎上，使他們剛好及格:</span><span class="pln">
+ </span><span class="typ">Name</span><span class="pln">     score
+ </span><span class="typ">Zhangshan</span><span class="pln"> </span><span class="lit">80</span><span class="pln">
+ </span><span class="typ">Lishi</span><span class="pln">       </span><span class="lit">59</span><span class="pln">
+ </span><span class="typ">Wangwu</span><span class="pln">      </span><span class="lit">50</span><span class="pln">
+ </span><span class="typ">Songquan</span><span class="pln"> </span><span class="lit">69</span><span class="pln">
+</span><span class="kwd">while</span><span class="pun">((</span><span class="kwd">select</span><span class="pln"> min</span><span class="pun">(</span><span class="pln">score</span><span class="pun">)</span><span class="pln"> </span><span class="kwd">from</span><span class="pln"> tb_table</span><span class="pun">)&lt;</span><span class="lit">60</span><span class="pun">)</span><span class="pln">
+</span><span class="kwd">begin</span><span class="pln">
+update tb_table </span><span class="kwd">set</span><span class="pln"> score </span><span class="pun">=</span><span class="pln">score</span><span class="pun">*</span><span class="lit">1.01</span><span class="pln">
+</span><span class="kwd">where</span><span class="pln"> score</span><span class="pun">&lt;</span><span class="lit">60</span><span class="pln">
+</span><span class="kwd">if</span><span class="pln">  </span><span class="pun">(</span><span class="kwd">select</span><span class="pln"> min</span><span class="pun">(</span><span class="pln">score</span><span class="pun">)</span><span class="pln"> </span><span class="kwd">from</span><span class="pln"> tb_table</span><span class="pun">)&gt;</span><span class="lit">60</span><span class="pln">
+  </span><span class="kwd">break</span><span class="pln">
+ </span><span class="kwd">else</span><span class="pln">
+    </span><span class="kwd">continue</span><span class="pln">
+</span><span class="kwd">end</span><span class="pln">
+ 
+</span><span class="pun">数据开发-经典</span><span class="pln">
+ 
+</span><span class="lit">1.</span><span class="pun">按姓氏笔画排序:</span><span class="pln">
+</span><span class="typ">Select</span><span class="pln"> </span><span class="pun">*</span><span class="pln"> </span><span class="typ">From</span><span class="pln"> </span><span class="typ">TableName</span><span class="pln"> </span><span class="typ">Order</span><span class="pln"> </span><span class="typ">By</span><span class="pln"> </span><span class="typ">CustomerName</span><span class="pln"> </span><span class="typ">Collate</span><span class="pln"> </span><span class="typ">Chinese_PRC_Stroke_ci_as</span><span class="pln"> </span><span class="com">//从少到多</span><span class="pln">
+</span><span class="lit">2.</span><span class="pun">数据库加密:</span><span class="pln">
+</span><span class="kwd">select</span><span class="pln"> encrypt</span><span class="pun">(</span><span class="str">'原始密码'</span><span class="pun">)</span><span class="pln">
+</span><span class="kwd">select</span><span class="pln"> pwdencrypt</span><span class="pun">(</span><span class="str">'原始密码'</span><span class="pun">)</span><span class="pln">
+</span><span class="kwd">select</span><span class="pln"> pwdcompare</span><span class="pun">(</span><span class="str">'原始密码'</span><span class="pun">,</span><span class="str">'加密后密码'</span><span class="pun">)</span><span class="pln"> </span><span class="pun">=</span><span class="pln"> </span><span class="lit">1</span><span class="pun">--相同；否则不相同</span><span class="pln"> encrypt</span><span class="pun">(</span><span class="str">'原始密码'</span><span class="pun">)</span><span class="pln">
+</span><span class="kwd">select</span><span class="pln"> pwdencrypt</span><span class="pun">(</span><span class="str">'原始密码'</span><span class="pun">)</span><span class="pln">
+</span><span class="kwd">select</span><span class="pln"> pwdcompare</span><span class="pun">(</span><span class="str">'原始密码'</span><span class="pun">,</span><span class="str">'加密后密码'</span><span class="pun">)</span><span class="pln"> </span><span class="pun">=</span><span class="pln"> </span><span class="lit">1</span><span class="pun">--相同；否则不相同</span><span class="pln">
+</span><span class="lit">3.</span><span class="pun">取回表中字段:</span><span class="pln">
+declare </span><span class="lit">@list</span><span class="pln"> varchar</span><span class="pun">(</span><span class="lit">1000</span><span class="pun">),</span><span class="pln">
+</span><span class="lit">@sql</span><span class="pln"> nvarchar</span><span class="pun">(</span><span class="lit">1000</span><span class="pun">)</span><span class="pln">
+</span><span class="kwd">select</span><span class="pln"> </span><span class="lit">@list</span><span class="pun">=</span><span class="lit">@list</span><span class="pun">+</span><span class="str">','</span><span class="pun">+</span><span class="pln">b</span><span class="pun">.</span><span class="pln">name </span><span class="kwd">from</span><span class="pln"> sysobjects a</span><span class="pun">,</span><span class="pln">syscolumns b </span><span class="kwd">where</span><span class="pln"> a</span><span class="pun">.</span><span class="pln">id</span><span class="pun">=</span><span class="pln">b</span><span class="pun">.</span><span class="pln">id </span><span class="kwd">and</span><span class="pln"> a</span><span class="pun">.</span><span class="pln">name</span><span class="pun">=</span><span class="str">'表A'</span><span class="pln">
+</span><span class="kwd">set</span><span class="pln"> </span><span class="lit">@sql</span><span class="pun">=</span><span class="str">'select '</span><span class="pun">+</span><span class="pln">right</span><span class="pun">(</span><span class="lit">@list</span><span class="pun">,</span><span class="pln">len</span><span class="pun">(</span><span class="lit">@list</span><span class="pun">)-</span><span class="lit">1</span><span class="pun">)+</span><span class="str">' from 表A'</span><span class="pln">
+</span><span class="kwd">exec</span><span class="pln"> </span><span class="pun">(</span><span class="lit">@sql</span><span class="pun">)</span><span class="pln">
+</span><span class="lit">4.</span><span class="pun">查看硬盘分区:</span><span class="pln">
+EXEC master</span><span class="pun">..</span><span class="pln">xp_fixeddrives
+</span><span class="lit">5.</span><span class="pun">比较</span><span class="pln">A</span><span class="pun">,</span><span class="pln">B</span><span class="pun">表是否相等:</span><span class="pln">
+</span><span class="kwd">if</span><span class="pln"> </span><span class="pun">(</span><span class="kwd">select</span><span class="pln"> checksum_agg</span><span class="pun">(</span><span class="pln">binary_checksum</span><span class="pun">(*))</span><span class="pln"> </span><span class="kwd">from</span><span class="pln"> A</span><span class="pun">)</span><span class="pln">
+     </span><span class="pun">=</span><span class="pln">
+    </span><span class="pun">(</span><span class="kwd">select</span><span class="pln"> checksum_agg</span><span class="pun">(</span><span class="pln">binary_checksum</span><span class="pun">(*))</span><span class="pln"> </span><span class="kwd">from</span><span class="pln"> B</span><span class="pun">)</span><span class="pln">
+</span><span class="kwd">print</span><span class="pln"> </span><span class="str">'相等'</span><span class="pln">
+</span><span class="kwd">else</span><span class="pln">
+</span><span class="kwd">print</span><span class="pln"> </span><span class="str">'不相等'</span><span class="pln">
+</span><span class="lit">6.</span><span class="pun">杀掉所有的事件探察器进程:</span><span class="pln">
+DECLARE hcforeach CURSOR GLOBAL FOR SELECT </span><span class="str">'kill '</span><span class="pun">+</span><span class="pln">RTRIM</span><span class="pun">(</span><span class="pln">spid</span><span class="pun">)</span><span class="pln"> FROM master</span><span class="pun">.</span><span class="pln">dbo</span><span class="pun">.</span><span class="pln">sysprocesses
+WHERE program_name IN</span><span class="pun">(</span><span class="str">'SQL profiler'</span><span class="pun">,</span><span class="pln">N</span><span class="str">'SQL 事件探查器'</span><span class="pun">)</span><span class="pln">
+EXEC sp_msforeach_worker </span><span class="str">'?'</span><span class="pln">
+</span><span class="lit">7.</span><span class="pun">记录搜索:</span><span class="pln">
+</span><span class="pun">开头到</span><span class="pln">N</span><span class="pun">条记录</span><span class="pln">
+</span><span class="typ">Select</span><span class="pln"> </span><span class="typ">Top</span><span class="pln"> N </span><span class="pun">*</span><span class="pln"> </span><span class="typ">From</span><span class="pln"> </span><span class="pun">表</span><span class="pln">
+</span><span class="pun">-------------------------------</span><span class="pln">
+N</span><span class="pun">到</span><span class="pln">M</span><span class="pun">条记录(要有主索引</span><span class="pln">ID</span><span class="pun">)</span><span class="pln">
+</span><span class="typ">Select</span><span class="pln"> </span><span class="typ">Top</span><span class="pln"> M</span><span class="pun">-</span><span class="pln">N </span><span class="pun">*</span><span class="pln"> </span><span class="typ">From</span><span class="pln"> </span><span class="pun">表</span><span class="pln"> </span><span class="typ">Where</span><span class="pln"> ID </span><span class="kwd">in</span><span class="pln"> </span><span class="pun">(</span><span class="typ">Select</span><span class="pln"> </span><span class="typ">Top</span><span class="pln"> M ID </span><span class="typ">From</span><span class="pln"> </span><span class="pun">表)</span><span class="pln"> </span><span class="typ">Order</span><span class="pln"> </span><span class="kwd">by</span><span class="pln"> ID   </span><span class="typ">Desc</span><span class="pln">
+</span><span class="pun">----------------------------------</span><span class="pln">
+N</span><span class="pun">到结尾记录</span><span class="pln">
+</span><span class="typ">Select</span><span class="pln"> </span><span class="typ">Top</span><span class="pln"> N </span><span class="pun">*</span><span class="pln"> </span><span class="typ">From</span><span class="pln"> </span><span class="pun">表</span><span class="pln"> </span><span class="typ">Order</span><span class="pln"> </span><span class="kwd">by</span><span class="pln"> ID </span><span class="typ">Desc</span><span class="pln">
+</span><span class="pun">案例</span><span class="pln">
+</span><span class="pun">例如</span><span class="lit">1</span><span class="pun">：一张表有一万多条记录，表的第一个字段</span><span class="pln"> </span><span class="typ">RecID</span><span class="pln"> </span><span class="pun">是自增长字段，</span><span class="pln"> </span><span class="pun">写一个</span><span class="pln">SQL</span><span class="pun">语句，找出表的第</span><span class="lit">31</span><span class="pun">到第</span><span class="lit">40</span><span class="pun">个记录。</span><span class="pln">
+ </span><span class="kwd">select</span><span class="pln"> top </span><span class="lit">10</span><span class="pln"> recid </span><span class="kwd">from</span><span class="pln"> A </span><span class="kwd">where</span><span class="pln"> recid </span><span class="kwd">not</span><span class="pln">  </span><span class="kwd">in</span><span class="pun">(</span><span class="kwd">select</span><span class="pln"> top </span><span class="lit">30</span><span class="pln"> recid </span><span class="kwd">from</span><span class="pln"> A</span><span class="pun">)</span><span class="pln">
+</span><span class="pun">分析：如果这样写会产生某些问题，如果</span><span class="pln">recid</span><span class="pun">在表中存在逻辑索引。</span><span class="pln">
+ </span><span class="kwd">select</span><span class="pln"> top </span><span class="lit">10</span><span class="pln"> recid </span><span class="kwd">from</span><span class="pln"> A </span><span class="kwd">where</span><span class="pun">……是从索引中查找，而后面的</span><span class="kwd">select</span><span class="pln"> top </span><span class="lit">30</span><span class="pln"> recid </span><span class="kwd">from</span><span class="pln"> A</span><span class="pun">则在数据表中查找，这样由于索引中的顺序有可能和数据表中的不一致，这样就导致查询到的不是本来的欲得到的数据。</span><span class="pln">
+</span><span class="pun">解决方案</span><span class="pln">
+</span><span class="lit">1</span><span class="pun">，</span><span class="pln"> </span><span class="pun">用</span><span class="pln">order </span><span class="kwd">by</span><span class="pln"> </span><span class="kwd">select</span><span class="pln"> top </span><span class="lit">30</span><span class="pln"> recid </span><span class="kwd">from</span><span class="pln"> A order </span><span class="kwd">by</span><span class="pln"> ricid </span><span class="pun">如果该字段不是自增长，就会出现问题</span><span class="pln">
+</span><span class="lit">2</span><span class="pun">，</span><span class="pln"> </span><span class="pun">在那个子查询中也加条件：</span><span class="kwd">select</span><span class="pln"> top </span><span class="lit">30</span><span class="pln"> recid </span><span class="kwd">from</span><span class="pln"> A </span><span class="kwd">where</span><span class="pln"> recid</span><span class="pun">&gt;-</span><span class="lit">1</span><span class="pln">
+</span><span class="pun">例</span><span class="lit">2</span><span class="pun">：查询表中的最后以条记录，并不知道这个表共有多少数据,以及表结构。</span><span class="pln">
+</span><span class="kwd">set</span><span class="pln"> </span><span class="lit">@s</span><span class="pln"> </span><span class="pun">=</span><span class="pln"> </span><span class="str">'select top 1 * from T   where pid not in (select top '</span><span class="pln"> </span><span class="pun">+</span><span class="pln"> str</span><span class="pun">(</span><span class="lit">@count</span><span class="pun">-</span><span class="lit">1</span><span class="pun">)</span><span class="pln"> </span><span class="pun">+</span><span class="pln"> </span><span class="str">' pid  from  T)'</span><span class="pln">
+</span><span class="kwd">print</span><span class="pln"> </span><span class="lit">@s</span><span class="pln">      </span><span class="kwd">exec</span><span class="pln">  sp_executesql  </span><span class="lit">@s</span><span class="pln">
+</span><span class="lit">9</span><span class="pun">：获取当前数据库中的所有用户表</span><span class="pln">
+</span><span class="kwd">select</span><span class="pln"> </span><span class="typ">Name</span><span class="pln"> </span><span class="kwd">from</span><span class="pln"> sysobjects </span><span class="kwd">where</span><span class="pln"> xtype</span><span class="pun">=</span><span class="str">'u'</span><span class="pln"> </span><span class="kwd">and</span><span class="pln"> status</span><span class="pun">&gt;=</span><span class="lit">0</span><span class="pln">
+</span><span class="lit">10</span><span class="pun">：获取某一个表的所有字段</span><span class="pln">
+</span><span class="kwd">select</span><span class="pln"> name </span><span class="kwd">from</span><span class="pln"> syscolumns </span><span class="kwd">where</span><span class="pln"> id</span><span class="pun">=</span><span class="pln">object_id</span><span class="pun">(</span><span class="str">'表名'</span><span class="pun">)</span><span class="pln">
+</span><span class="kwd">select</span><span class="pln"> name </span><span class="kwd">from</span><span class="pln"> syscolumns </span><span class="kwd">where</span><span class="pln"> id </span><span class="kwd">in</span><span class="pln"> </span><span class="pun">(</span><span class="kwd">select</span><span class="pln"> id </span><span class="kwd">from</span><span class="pln"> sysobjects </span><span class="kwd">where</span><span class="pln"> type </span><span class="pun">=</span><span class="pln"> </span><span class="str">'u'</span><span class="pln"> </span><span class="kwd">and</span><span class="pln"> name </span><span class="pun">=</span><span class="pln"> </span><span class="str">'表名'</span><span class="pun">)</span><span class="pln">
+</span><span class="pun">两种方式的效果相同</span><span class="pln">
+</span><span class="lit">11</span><span class="pun">：查看与某一个表相关的视图、存储过程、函数</span><span class="pln">
+</span><span class="kwd">select</span><span class="pln"> a</span><span class="pun">.*</span><span class="pln"> </span><span class="kwd">from</span><span class="pln"> sysobjects a</span><span class="pun">,</span><span class="pln"> syscomments b </span><span class="kwd">where</span><span class="pln"> a</span><span class="pun">.</span><span class="pln">id </span><span class="pun">=</span><span class="pln"> b</span><span class="pun">.</span><span class="pln">id </span><span class="kwd">and</span><span class="pln"> b</span><span class="pun">.</span><span class="pln">text like </span><span class="str">'%表名%'</span><span class="pln">
+</span><span class="lit">12</span><span class="pun">：查看当前数据库中所有存储过程</span><span class="pln">
+</span><span class="kwd">select</span><span class="pln"> name </span><span class="kwd">as</span><span class="pln"> </span><span class="pun">存储过程名称</span><span class="pln"> </span><span class="kwd">from</span><span class="pln"> sysobjects </span><span class="kwd">where</span><span class="pln"> xtype</span><span class="pun">=</span><span class="str">'P'</span><span class="pln">
+</span><span class="lit">13</span><span class="pun">：查询用户创建的所有数据库</span><span class="pln">
+</span><span class="kwd">select</span><span class="pln"> </span><span class="pun">*</span><span class="pln"> </span><span class="kwd">from</span><span class="pln"> master</span><span class="pun">..</span><span class="pln">sysdatabases D </span><span class="kwd">where</span><span class="pln"> sid </span><span class="kwd">not</span><span class="pln"> </span><span class="kwd">in</span><span class="pun">(</span><span class="kwd">select</span><span class="pln"> sid </span><span class="kwd">from</span><span class="pln"> master</span><span class="pun">..</span><span class="pln">syslogins </span><span class="kwd">where</span><span class="pln"> name</span><span class="pun">=</span><span class="str">'sa'</span><span class="pun">)</span><span class="pln">
+</span><span class="pun">或者</span><span class="pln">
+</span><span class="kwd">select</span><span class="pln"> dbid</span><span class="pun">,</span><span class="pln"> name AS DB_NAME </span><span class="kwd">from</span><span class="pln"> master</span><span class="pun">..</span><span class="pln">sysdatabases </span><span class="kwd">where</span><span class="pln"> sid </span><span class="pun">&lt;&gt;</span><span class="pln"> </span><span class="lit">0x01</span><span class="pln">
+</span><span class="lit">14</span><span class="pun">：查询某一个表的字段和数据类型</span><span class="pln">
+</span><span class="kwd">select</span><span class="pln"> column_name</span><span class="pun">,</span><span class="pln">data_type </span><span class="kwd">from</span><span class="pln"> information_schema</span><span class="pun">.</span><span class="pln">columns
+</span><span class="kwd">where</span><span class="pln"> table_name </span><span class="pun">=</span><span class="pln"> </span><span class="str">'表名'</span><span class="pln">
+</span><span class="lit">15</span><span class="pun">：不同服务器数据库之间的数据操作</span><span class="pln">
+</span><span class="pun">--创建链接服务器</span><span class="pln">
+</span><span class="kwd">exec</span><span class="pln"> sp_addlinkedserver   </span><span class="str">'ITSV '</span><span class="pun">,</span><span class="pln"> </span><span class="str">' '</span><span class="pun">,</span><span class="pln"> </span><span class="str">'SQLOLEDB '</span><span class="pun">,</span><span class="pln"> </span><span class="str">'远程服务器名或ip地址 '</span><span class="pln">
+</span><span class="kwd">exec</span><span class="pln"> sp_addlinkedsrvlogin  </span><span class="str">'ITSV '</span><span class="pun">,</span><span class="pln"> </span><span class="str">'false '</span><span class="pun">,</span><span class="kwd">null</span><span class="pun">,</span><span class="pln"> </span><span class="str">'用户名 '</span><span class="pun">,</span><span class="pln"> </span><span class="str">'密码 '</span><span class="pln">
+</span><span class="pun">--查询示例</span><span class="pln">
+</span><span class="kwd">select</span><span class="pln"> </span><span class="pun">*</span><span class="pln"> </span><span class="kwd">from</span><span class="pln"> ITSV</span><span class="pun">.数据库名.</span><span class="pln">dbo</span><span class="pun">.表名</span><span class="pln">
+</span><span class="pun">--导入示例</span><span class="pln">
+</span><span class="kwd">select</span><span class="pln"> </span><span class="pun">*</span><span class="pln"> </span><span class="kwd">into</span><span class="pln"> </span><span class="pun">表</span><span class="pln"> </span><span class="kwd">from</span><span class="pln"> ITSV</span><span class="pun">.数据库名.</span><span class="pln">dbo</span><span class="pun">.表名</span><span class="pln">
+</span><span class="pun">--以后不再使用时删除链接服务器</span><span class="pln">
+</span><span class="kwd">exec</span><span class="pln"> sp_dropserver  </span><span class="str">'ITSV '</span><span class="pun">,</span><span class="pln"> </span><span class="str">'droplogins '</span><span class="pln">
+ 
+</span><span class="pun">--连接远程/局域网数据(</span><span class="pln">openrowset</span><span class="pun">/</span><span class="pln">openquery</span><span class="pun">/</span><span class="pln">opendatasource</span><span class="pun">)</span><span class="pln">
+</span><span class="pun">--</span><span class="lit">1</span><span class="pun">、</span><span class="pln">openrowset
+</span><span class="pun">--查询示例</span><span class="pln">
+</span><span class="kwd">select</span><span class="pln"> </span><span class="pun">*</span><span class="pln"> </span><span class="kwd">from</span><span class="pln"> openrowset</span><span class="pun">(</span><span class="pln"> </span><span class="str">'SQLOLEDB '</span><span class="pun">,</span><span class="pln"> </span><span class="str">'sql服务器名 '</span><span class="pun">;</span><span class="pln"> </span><span class="str">'用户名 '</span><span class="pun">;</span><span class="pln"> </span><span class="str">'密码 '</span><span class="pun">,数据库名.</span><span class="pln">dbo</span><span class="pun">.表名)</span><span class="pln">
+</span><span class="pun">--生成本地表</span><span class="pln">
+</span><span class="kwd">select</span><span class="pln"> </span><span class="pun">*</span><span class="pln"> </span><span class="kwd">into</span><span class="pln"> </span><span class="pun">表</span><span class="pln"> </span><span class="kwd">from</span><span class="pln"> openrowset</span><span class="pun">(</span><span class="pln"> </span><span class="str">'SQLOLEDB '</span><span class="pun">,</span><span class="pln"> </span><span class="str">'sql服务器名 '</span><span class="pun">;</span><span class="pln"> </span><span class="str">'用户名 '</span><span class="pun">;</span><span class="pln"> </span><span class="str">'密码 '</span><span class="pun">,数据库名.</span><span class="pln">dbo</span><span class="pun">.表名)</span><span class="pln">
+ 
+</span><span class="pun">--把本地表导入远程表</span><span class="pln">
+insert openrowset</span><span class="pun">(</span><span class="pln"> </span><span class="str">'SQLOLEDB '</span><span class="pun">,</span><span class="pln"> </span><span class="str">'sql服务器名 '</span><span class="pun">;</span><span class="pln"> </span><span class="str">'用户名 '</span><span class="pun">;</span><span class="pln"> </span><span class="str">'密码 '</span><span class="pun">,数据库名.</span><span class="pln">dbo</span><span class="pun">.表名)</span><span class="pln">
+</span><span class="kwd">select</span><span class="pln"> </span><span class="pun">*</span><span class="kwd">from</span><span class="pln"> </span><span class="pun">本地表</span><span class="pln">
+</span><span class="pun">--更新本地表</span><span class="pln">
+update b
+</span><span class="kwd">set</span><span class="pln"> b</span><span class="pun">.列</span><span class="pln">A</span><span class="pun">=</span><span class="pln">a</span><span class="pun">.列</span><span class="pln">A
+ </span><span class="kwd">from</span><span class="pln"> openrowset</span><span class="pun">(</span><span class="pln"> </span><span class="str">'SQLOLEDB '</span><span class="pun">,</span><span class="pln"> </span><span class="str">'sql服务器名 '</span><span class="pun">;</span><span class="pln"> </span><span class="str">'用户名 '</span><span class="pun">;</span><span class="pln"> </span><span class="str">'密码 '</span><span class="pun">,数据库名.</span><span class="pln">dbo</span><span class="pun">.表名)</span><span class="kwd">as</span><span class="pln"> a inner join </span><span class="pun">本地表</span><span class="pln"> b
+on a</span><span class="pun">.</span><span class="pln">column1</span><span class="pun">=</span><span class="pln">b</span><span class="pun">.</span><span class="pln">column1
+</span><span class="pun">--</span><span class="pln">openquery</span><span class="pun">用法需要创建一个连接</span><span class="pln">
+</span><span class="pun">--首先创建一个连接创建链接服务器</span><span class="pln">
+</span><span class="kwd">exec</span><span class="pln"> sp_addlinkedserver   </span><span class="str">'ITSV '</span><span class="pun">,</span><span class="pln"> </span><span class="str">' '</span><span class="pun">,</span><span class="pln"> </span><span class="str">'SQLOLEDB '</span><span class="pun">,</span><span class="pln"> </span><span class="str">'远程服务器名或ip地址 '</span><span class="pln">
+</span><span class="pun">--查询</span><span class="pln">
+</span><span class="kwd">select</span><span class="pln"> </span><span class="pun">*</span><span class="pln">
+FROM openquery</span><span class="pun">(</span><span class="pln">ITSV</span><span class="pun">,</span><span class="pln">  </span><span class="str">'SELECT *  FROM 数据库.dbo.表名 '</span><span class="pun">)</span><span class="pln">
+</span><span class="pun">--把本地表导入远程表</span><span class="pln">
+insert openquery</span><span class="pun">(</span><span class="pln">ITSV</span><span class="pun">,</span><span class="pln">  </span><span class="str">'SELECT *  FROM 数据库.dbo.表名 '</span><span class="pun">)</span><span class="pln">
+</span><span class="kwd">select</span><span class="pln"> </span><span class="pun">*</span><span class="pln"> </span><span class="kwd">from</span><span class="pln"> </span><span class="pun">本地表</span><span class="pln">
+</span><span class="pun">--更新本地表</span><span class="pln">
+update b
+</span><span class="kwd">set</span><span class="pln"> b</span><span class="pun">.列</span><span class="pln">B</span><span class="pun">=</span><span class="pln">a</span><span class="pun">.列</span><span class="pln">B
+FROM openquery</span><span class="pun">(</span><span class="pln">ITSV</span><span class="pun">,</span><span class="pln">  </span><span class="str">'SELECT * FROM 数据库.dbo.表名 '</span><span class="pun">)</span><span class="pln"> </span><span class="kwd">as</span><span class="pln"> a 
+inner join </span><span class="pun">本地表</span><span class="pln"> b on a</span><span class="pun">.列</span><span class="pln">A</span><span class="pun">=</span><span class="pln">b</span><span class="pun">.列</span><span class="pln">A
+ 
+</span><span class="pun">--</span><span class="lit">3</span><span class="pun">、</span><span class="pln">opendatasource</span><span class="pun">/</span><span class="pln">openrowset
+SELECT   </span><span class="pun">*</span><span class="pln">
+FROM   opendatasource</span><span class="pun">(</span><span class="pln"> </span><span class="str">'SQLOLEDB '</span><span class="pun">,</span><span class="pln">  </span><span class="str">'Data Source=ip/ServerName;User ID=登陆名;Password=密码 '</span><span class="pln"> </span><span class="pun">).</span><span class="pln">test</span><span class="pun">.</span><span class="pln">dbo</span><span class="pun">.</span><span class="pln">roy_ta
+</span><span class="pun">--把本地表导入远程表</span><span class="pln">
+insert opendatasource</span><span class="pun">(</span><span class="pln"> </span><span class="str">'SQLOLEDB '</span><span class="pun">,</span><span class="pln">  </span><span class="str">'Data Source=ip/ServerName;User ID=登陆名;Password=密码 '</span><span class="pun">).数据库.</span><span class="pln">dbo</span><span class="pun">.表名</span><span class="pln">
+</span><span class="kwd">select</span><span class="pln"> </span><span class="pun">*</span><span class="pln"> </span><span class="kwd">from</span><span class="pln"> </span><span class="pun">本地表</span><span class="pln"> 
+SQL </span><span class="typ">Server</span><span class="pun">基本函数</span><span class="pln">
+SQL </span><span class="typ">Server</span><span class="pun">基本函数</span><span class="pln">
+</span><span class="lit">1.</span><span class="pun">字符串函数</span><span class="pln"> </span><span class="pun">长度与分析用</span><span class="pln">
+</span><span class="lit">1</span><span class="pun">,</span><span class="pln">datalength</span><span class="pun">(</span><span class="typ">Char_expr</span><span class="pun">)</span><span class="pln"> </span><span class="pun">返回字符串包含字符数,但不包含后面的空格</span><span class="pln">
+</span><span class="lit">2</span><span class="pun">,</span><span class="pln">substring</span><span class="pun">(</span><span class="pln">expression</span><span class="pun">,</span><span class="pln">start</span><span class="pun">,</span><span class="pln">length</span><span class="pun">)</span><span class="pln"> </span><span class="pun">取子串，字符串的下标是从“</span><span class="lit">1</span><span class="pun">”，</span><span class="pln">start</span><span class="pun">为起始位置，</span><span class="pln">length</span><span class="pun">为字符串长度，实际应用中以</span><span class="pln">len</span><span class="pun">(</span><span class="pln">expression</span><span class="pun">)取得其长度</span><span class="pln">
+</span><span class="lit">3</span><span class="pun">,</span><span class="pln">right</span><span class="pun">(</span><span class="pln">char_expr</span><span class="pun">,</span><span class="pln">int_expr</span><span class="pun">)</span><span class="pln"> </span><span class="pun">返回字符串右边第</span><span class="pln">int_expr</span><span class="pun">个字符，还用</span><span class="pln">left</span><span class="pun">于之相反</span><span class="pln">
+</span><span class="lit">4</span><span class="pun">,</span><span class="pln">isnull</span><span class="pun">(</span><span class="pln"> check_expression </span><span class="pun">,</span><span class="pln"> replacement_value </span><span class="pun">)如果</span><span class="pln">check_expression</span><span class="pun">為空，則返回</span><span class="pln">replacement_value</span><span class="pun">的值，不為空，就返回</span><span class="pln">check_expression</span><span class="pun">字符操作类</span><span class="pln">
+</span><span class="lit">5</span><span class="pun">,</span><span class="typ">Sp_addtype</span><span class="pln"> </span><span class="pun">自定義數據類型</span><span class="pln">
+</span><span class="pun">例如：</span><span class="pln">EXEC sp_addtype birthday</span><span class="pun">,</span><span class="pln"> datetime</span><span class="pun">,</span><span class="pln"> </span><span class="str">'NULL'</span><span class="pln">
+</span><span class="lit">6</span><span class="pun">,</span><span class="kwd">set</span><span class="pln"> nocount </span><span class="pun">{</span><span class="pln">on</span><span class="pun">|</span><span class="pln">off</span><span class="pun">}</span><span class="pln">
+</span><span class="pun">使返回的结果中不包含有关受</span><span class="pln"> </span><span class="typ">Transact</span><span class="pun">-</span><span class="pln">SQL </span><span class="pun">语句影响的行数的信息。如果存储过程中包含的一些语句并不返回许多实际的数据，则该设置由于大量减少了网络流量，因此可显著提高性能。</span><span class="pln">SET NOCOUNT </span><span class="pun">设置是在执行或运行时设置，而不是在分析时设置。</span><span class="pln">
+SET NOCOUNT </span><span class="pun">为</span><span class="pln"> ON </span><span class="pun">时，不返回计数（表示受</span><span class="pln"> </span><span class="typ">Transact</span><span class="pun">-</span><span class="pln">SQL </span><span class="pun">语句影响的行数）。</span><span class="pln">
+SET NOCOUNT </span><span class="pun">为</span><span class="pln"> OFF </span><span class="pun">时，返回计数</span><span class="pln">
+</span><span class="pun">常识</span><span class="pln">
+ 
+</span><span class="pun">在</span><span class="pln">SQL</span><span class="pun">查询中：</span><span class="kwd">from</span><span class="pun">后最多可以跟多少张表或视图：</span><span class="lit">256</span><span class="pln">
+</span><span class="pun">在</span><span class="pln">SQL</span><span class="pun">语句中出现</span><span class="pln"> </span><span class="typ">Order</span><span class="pln"> </span><span class="kwd">by</span><span class="pun">,查询时，先排序，后取</span><span class="pln">
+</span><span class="pun">在</span><span class="pln">SQL</span><span class="pun">中，一个字段的最大容量是</span><span class="lit">8000</span><span class="pun">，而对于</span><span class="pln">nvarchar</span><span class="pun">(</span><span class="lit">4000</span><span class="pun">),由于</span><span class="pln">nvarchar</span><span class="pun">是</span><span class="typ">Unicode</span><span class="pun">码。</span><span class="pln"> 
+  
+</span><span class="typ">SQLServer2000</span><span class="pun">同步复制技术实现步骤</span><span class="pln">
+</span><span class="pun">一、</span><span class="pln"> </span><span class="pun">预备工作</span><span class="pln">
+</span><span class="lit">1.</span><span class="pun">发布服务器,订阅服务器都创建一个同名的</span><span class="pln">windows</span><span class="pun">用户,并设置相同的密码,做为发布快照文件夹的有效访问用户</span><span class="pln">
+</span><span class="pun">--管理工具</span><span class="pln">
+</span><span class="pun">--计算机管理</span><span class="pln">
+</span><span class="pun">--用户和组</span><span class="pln">
+</span><span class="pun">--右键用户</span><span class="pln">
+</span><span class="pun">--新建用户</span><span class="pln">
+</span><span class="pun">--建立一个隶属于</span><span class="pln">administrator</span><span class="pun">组的登陆</span><span class="pln">windows</span><span class="pun">的用户（</span><span class="typ">SynUser</span><span class="pun">）</span><span class="pln">
+</span><span class="lit">2.</span><span class="pun">在发布服务器上,新建一个共享目录,做为发布的快照文件的存放目录,操作:</span><span class="pln">
+</span><span class="pun">我的电脑--</span><span class="pln">D</span><span class="pun">:</span><span class="pln">\ </span><span class="pun">新建一个目录,名为:</span><span class="pln"> PUB
+</span><span class="pun">--右键这个新建的目录</span><span class="pln">
+</span><span class="pun">--属性--共享</span><span class="pln">
+</span><span class="pun">--选择</span><span class="str">"共享该文件夹"</span><span class="pln">
+</span><span class="pun">--通过</span><span class="str">"权限"</span><span class="pun">按纽来设置具体的用户权限,保证第一步中创建的用户(</span><span class="typ">SynUser</span><span class="pun">)</span><span class="pln"> </span><span class="pun">具有对该文件夹的所有权限</span><span class="pln">
+ 
+</span><span class="pun">--确定</span><span class="pln">
+</span><span class="lit">3.</span><span class="pun">设置</span><span class="pln">SQL</span><span class="pun">代理(</span><span class="pln">SQLSERVERAGENT</span><span class="pun">)服务的启动用户(发布/订阅服务器均做此设置)</span><span class="pln">
+</span><span class="pun">开始--程序--管理工具--服务</span><span class="pln">
+</span><span class="pun">--右键</span><span class="pln">SQLSERVERAGENT
+</span><span class="pun">--属性--登陆--选择</span><span class="str">"此账户"</span><span class="pln">
+</span><span class="pun">--输入或者选择第一步中创建的</span><span class="pln">windows</span><span class="pun">登录用户名（</span><span class="typ">SynUser</span><span class="pun">）</span><span class="pln">
+</span><span class="pun">--</span><span class="str">"密码"</span><span class="pun">中输入该用户的密码</span><span class="pln">
+</span><span class="lit">4.</span><span class="pun">设置</span><span class="pln">SQL </span><span class="typ">Server</span><span class="pun">身份验证模式,解决连接时的权限问题(发布/订阅服务器均做此设置)</span><span class="pln">
+</span><span class="pun">企业管理器</span><span class="pln">
+</span><span class="pun">--右键</span><span class="pln">SQL</span><span class="pun">实例--属性</span><span class="pln">
+</span><span class="pun">--安全性--身份验证</span><span class="pln">
+</span><span class="pun">--选择</span><span class="str">"SQL Server 和 Windows"</span><span class="pln">
+</span><span class="pun">--确定</span><span class="pln">
+</span><span class="lit">5.</span><span class="pun">在发布服务器和订阅服务器上互相注册</span><span class="pln">
+</span><span class="pun">企业管理器</span><span class="pln">
+</span><span class="pun">--右键</span><span class="pln">SQL </span><span class="typ">Server</span><span class="pun">组</span><span class="pln">
+</span><span class="pun">--新建</span><span class="pln">SQL </span><span class="typ">Server</span><span class="pun">注册...</span><span class="pln">
+</span><span class="pun">--下一步--可用的服务器中,输入你要注册的远程服务器名</span><span class="pln"> </span><span class="pun">--添加</span><span class="pln">
+</span><span class="pun">--下一步--连接使用,选择第二个</span><span class="str">"SQL Server身份验证"</span><span class="pln">
+</span><span class="pun">--下一步--输入用户名和密码（</span><span class="typ">SynUser</span><span class="pun">）</span><span class="pln">
+</span><span class="pun">--下一步--选择</span><span class="pln">SQL </span><span class="typ">Server</span><span class="pun">组,也可以创建一个新组</span><span class="pln">
+</span><span class="pun">--下一步--完成</span><span class="pln">
+</span><span class="lit">6.</span><span class="pun">对于只能用</span><span class="pln">IP</span><span class="pun">,不能用计算机名的,为其注册服务器别名（此步在实施中没用到）</span><span class="pln">
+ </span><span class="pun">(在连接端配置,比如,在订阅服务器上配置的话,服务器名称中输入的是发布服务器的</span><span class="pln">IP</span><span class="pun">)</span><span class="pln">
+</span><span class="pun">开始--程序--</span><span class="typ">Microsoft</span><span class="pln"> SQL </span><span class="typ">Server</span><span class="pun">--客户端网络实用工具</span><span class="pln">
+</span><span class="pun">--别名--添加</span><span class="pln">
+</span><span class="pun">--网络库选择</span><span class="str">"tcp/ip"</span><span class="pun">--服务器别名输入</span><span class="pln">SQL</span><span class="pun">服务器名</span><span class="pln">
+</span><span class="pun">--连接参数--服务器名称中输入</span><span class="pln">SQL</span><span class="pun">服务器</span><span class="pln">ip</span><span class="pun">地址</span><span class="pln">
+</span><span class="pun">--如果你修改了</span><span class="pln">SQL</span><span class="pun">的端口,取消选择</span><span class="str">"动态决定端口"</span><span class="pun">,并输入对应的端口号</span><span class="pln">
+</span><span class="pun">二、</span><span class="pln"> </span><span class="pun">正式配置</span><span class="pln">
+</span><span class="lit">1</span><span class="pun">、配置发布服务器</span><span class="pln">
+</span><span class="pun">打开企业管理器，在发布服务器（</span><span class="pln">B</span><span class="pun">、</span><span class="pln">C</span><span class="pun">、</span><span class="pln">D</span><span class="pun">）上执行以下步骤:</span><span class="pln">
+</span><span class="pun">(</span><span class="lit">1</span><span class="pun">)</span><span class="pln"> </span><span class="pun">从[工具]下拉菜单的[复制]子菜单中选择[配置发布、订阅服务器和分发]出现配置发布和分发向导</span><span class="pln">
+</span><span class="pun">(</span><span class="lit">2</span><span class="pun">)</span><span class="pln"> </span><span class="pun">[下一步]</span><span class="pln"> </span><span class="pun">选择分发服务器</span><span class="pln"> </span><span class="pun">可以选择把发布服务器自己作为分发服务器或者其他</span><span class="pln">sql</span><span class="pun">的服务器（选择自己）</span><span class="pln">
+</span><span class="pun">(</span><span class="lit">3</span><span class="pun">)</span><span class="pln"> </span><span class="pun">[下一步]</span><span class="pln"> </span><span class="pun">设置快照文件夹</span><span class="pln">
+</span><span class="pun">采用默认</span><span class="pln">\\servername\Pub
+</span><span class="pun">(</span><span class="lit">4</span><span class="pun">)</span><span class="pln"> </span><span class="pun">[下一步]</span><span class="pln"> </span><span class="pun">自定义配置</span><span class="pln">
+</span><span class="pun">可以选择:是,让我设置分发数据库属性启用发布服务器或设置发布设置</span><span class="pln">
+</span><span class="pun">否,使用下列默认设置（推荐）</span><span class="pln">
+</span><span class="pun">(</span><span class="lit">5</span><span class="pun">)</span><span class="pln"> </span><span class="pun">[下一步]</span><span class="pln"> </span><span class="pun">设置分发数据库名称和位置</span><span class="pln"> </span><span class="pun">采用默认值</span><span class="pln">
+</span><span class="pun">(</span><span class="lit">6</span><span class="pun">)</span><span class="pln"> </span><span class="pun">[下一步]</span><span class="pln"> </span><span class="pun">启用发布服务器</span><span class="pln"> </span><span class="pun">选择作为发布的服务器</span><span class="pln">
+</span><span class="pun">(</span><span class="lit">7</span><span class="pun">)</span><span class="pln"> </span><span class="pun">[下一步]</span><span class="pln"> </span><span class="pun">选择需要发布的数据库和发布类型</span><span class="pln">
+</span><span class="pun">(</span><span class="lit">8</span><span class="pun">)</span><span class="pln"> </span><span class="pun">[下一步]</span><span class="pln"> </span><span class="pun">选择注册订阅服务器</span><span class="pln">
+</span><span class="pun">(</span><span class="lit">9</span><span class="pun">)</span><span class="pln"> </span><span class="pun">[下一步]</span><span class="pln"> </span><span class="pun">完成配置</span><span class="pln">
+</span><span class="lit">2</span><span class="pun">、创建出版物</span><span class="pln">
+</span><span class="pun">发布服务器</span><span class="pln">B</span><span class="pun">、</span><span class="pln">C</span><span class="pun">、</span><span class="pln">D</span><span class="pun">上</span><span class="pln">
+</span><span class="pun">(</span><span class="lit">1</span><span class="pun">)从[工具]菜单的[复制]子菜单中选择[创建和管理发布]命令</span><span class="pln">
+</span><span class="pun">(</span><span class="lit">2</span><span class="pun">)选择要创建出版物的数据库，然后单击[创建发布]</span><span class="pln">
+</span><span class="pun">(</span><span class="lit">3</span><span class="pun">)在[创建发布向导]的提示对话框中单击[下一步]系统就会弹出一个对话框。对话框上的内容是复制的三个类型。我们现在选第一个也就是默认的快照发布(其他两个大家可以去看看帮助)</span><span class="pln">
+</span><span class="pun">(</span><span class="lit">4</span><span class="pun">)单击[下一步]系统要求指定可以订阅该发布的数据库服务器类型,</span><span class="pln">
+SQLSERVER</span><span class="pun">允许在不同的数据库如</span><span class="pln"> orACLE</span><span class="pun">或</span><span class="pln">ACCESS</span><span class="pun">之间进行数据复制。</span><span class="pln">
+</span><span class="pun">但是在这里我们选择运行</span><span class="str">"SQL SERVER 2000"</span><span class="pun">的数据库服务器</span><span class="pln">
+</span><span class="pun">(</span><span class="lit">5</span><span class="pun">)单击[下一步]系统就弹出一个定义文章的对话框也就是选择要出版的表</span><span class="pln">
+</span><span class="pun">注意:</span><span class="pln"> </span><span class="pun">如果前面选择了事务发布</span><span class="pln"> </span><span class="pun">则再这一步中只能选择带有主键的表</span><span class="pln">
+</span><span class="pun">(</span><span class="lit">6</span><span class="pun">)选择发布名称和描述</span><span class="pln">
+</span><span class="pun">(</span><span class="lit">7</span><span class="pun">)自定义发布属性</span><span class="pln"> </span><span class="pun">向导提供的选择:</span><span class="pln">
+</span><span class="pun">是</span><span class="pln"> </span><span class="pun">我将自定义数据筛选,启用匿名订阅和或其他自定义属性</span><span class="pln">
+</span><span class="pun">否</span><span class="pln"> </span><span class="pun">根据指定方式创建发布</span><span class="pln"> </span><span class="pun">（建议采用自定义的方式）</span><span class="pln">
+</span><span class="pun">(</span><span class="lit">8</span><span class="pun">)[下一步]</span><span class="pln"> </span><span class="pun">选择筛选发布的方式</span><span class="pln">
+</span><span class="pun">(</span><span class="lit">9</span><span class="pun">)[下一步]</span><span class="pln"> </span><span class="pun">可以选择是否允许匿名订阅</span><span class="pln">
+</span><span class="lit">1</span><span class="pun">)如果选择署名订阅,则需要在发布服务器上添加订阅服务器</span><span class="pln">
+</span><span class="pun">方法:</span><span class="pln"> </span><span class="pun">[工具]-&gt;[复制]-&gt;[配置发布、订阅服务器和分发的属性]-&gt;[订阅服务器]</span><span class="pln"> </span><span class="pun">中添加</span><span class="pln">
+</span><span class="pun">否则在订阅服务器上请求订阅时会出现的提示:改发布不允许匿名订阅</span><span class="pln">
+</span><span class="pun">如果仍然需要匿名订阅则用以下解决办法</span><span class="pln">
+</span><span class="pun">[企业管理器]-&gt;[复制]-&gt;[发布内容]-&gt;[属性]-&gt;[订阅选项]</span><span class="pln"> </span><span class="pun">选择允许匿名请求订阅</span><span class="pln">
+</span><span class="lit">2</span><span class="pun">)如果选择匿名订阅,则配置订阅服务器时不会出现以上提示</span><span class="pln">
+</span><span class="pun">(</span><span class="lit">10</span><span class="pun">)[下一步]</span><span class="pln"> </span><span class="pun">设置快照</span><span class="pln"> </span><span class="pun">代理程序调度</span><span class="pln">
+</span><span class="pun">(</span><span class="lit">11</span><span class="pun">)[下一步]</span><span class="pln"> </span><span class="pun">完成配置</span><span class="pln">
+</span><span class="pun">当完成出版物的创建后创建出版物的数据库也就变成了一个共享数据库</span><span class="pln">
+</span><span class="pun">有数据</span><span class="pln">
+srv1</span><span class="pun">.库名..</span><span class="pln">author</span><span class="pun">有字段:</span><span class="pln">id</span><span class="pun">,</span><span class="pln">name</span><span class="pun">,</span><span class="pln">phone</span><span class="pun">,</span><span class="pln">
+srv2</span><span class="pun">.库名..</span><span class="pln">author</span><span class="pun">有字段:</span><span class="pln">id</span><span class="pun">,</span><span class="pln">name</span><span class="pun">,</span><span class="pln">telphone</span><span class="pun">,</span><span class="pln">adress
+ 
+</span><span class="pun">要求：</span><span class="pln">
+srv1</span><span class="pun">.库名..</span><span class="pln">author</span><span class="pun">增加记录则</span><span class="pln">srv1</span><span class="pun">.库名..</span><span class="pln">author</span><span class="pun">记录增加</span><span class="pln">
+srv1</span><span class="pun">.库名..</span><span class="pln">author</span><span class="pun">的</span><span class="pln">phone</span><span class="pun">字段更新，则</span><span class="pln">srv1</span><span class="pun">.库名..</span><span class="pln">author</span><span class="pun">对应字段</span><span class="pln">telphone</span><span class="pun">更新</span><span class="pln">
+</span><span class="pun">--*/</span><span class="pln">
+ 
+</span><span class="pun">--大致的处理步骤</span><span class="pln">
+</span><span class="pun">--</span><span class="lit">1.</span><span class="pun">在</span><span class="pln"> srv1 </span><span class="pun">上创建连接服务器,以便在</span><span class="pln"> srv1 </span><span class="pun">中操作</span><span class="pln"> srv2</span><span class="pun">,实现同步</span><span class="pln">
+</span><span class="kwd">exec</span><span class="pln"> sp_addlinkedserver </span><span class="str">'srv2'</span><span class="pun">,</span><span class="str">''</span><span class="pun">,</span><span class="str">'SQLOLEDB'</span><span class="pun">,</span><span class="str">'srv2的sql实例名或ip'</span><span class="pln">
+</span><span class="kwd">exec</span><span class="pln"> sp_addlinkedsrvlogin </span><span class="str">'srv2'</span><span class="pun">,</span><span class="str">'false'</span><span class="pun">,</span><span class="kwd">null</span><span class="pun">,</span><span class="str">'用户名'</span><span class="pun">,</span><span class="str">'密码'</span><span class="pln">
+go
+</span><span class="pun">--</span><span class="lit">2.</span><span class="pun">在</span><span class="pln"> srv1 </span><span class="pun">和</span><span class="pln"> srv2 </span><span class="pun">这两台电脑中,启动</span><span class="pln"> msdtc</span><span class="pun">(分布式事务处理服务),并且设置为自动启动</span><span class="pln">
+</span><span class="pun">。我的电脑--控制面板--管理工具--服务--右键</span><span class="pln"> </span><span class="typ">Distributed</span><span class="pln"> </span><span class="typ">Transaction</span><span class="pln"> </span><span class="typ">Coordinator</span><span class="pun">--属性--启动--并将启动类型设置为自动启动</span><span class="pln">
+go
+ 
+ 
+</span><span class="pun">--然后创建一个作业定时调用上面的同步处理存储过程就行了</span><span class="pln">
+ 
+</span><span class="pun">企业管理器</span><span class="pln">
+</span><span class="pun">--管理</span><span class="pln">
+</span><span class="pun">--</span><span class="pln">SQL </span><span class="typ">Server</span><span class="pun">代理</span><span class="pln">
+</span><span class="pun">--右键作业</span><span class="pln">
+</span><span class="pun">--新建作业</span><span class="pln">
+</span><span class="pun">--</span><span class="str">"常规"</span><span class="pun">项中输入作业名称</span><span class="pln">
+</span><span class="pun">--</span><span class="str">"步骤"</span><span class="pun">项</span><span class="pln">
+</span><span class="pun">--新建</span><span class="pln">
+</span><span class="pun">--</span><span class="str">"步骤名"</span><span class="pun">中输入步骤名</span><span class="pln">
+</span><span class="pun">--</span><span class="str">"类型"</span><span class="pun">中选择</span><span class="str">"Transact-SQL 脚本(TSQL)"</span><span class="pln">
+</span><span class="pun">--</span><span class="str">"数据库"</span><span class="pun">选择执行命令的数据库</span><span class="pln">
+</span><span class="pun">--</span><span class="str">"命令"</span><span class="pun">中输入要执行的语句:</span><span class="pln"> </span><span class="kwd">exec</span><span class="pln"> p_process
+</span><span class="pun">--确定</span><span class="pln">
+</span><span class="pun">--</span><span class="str">"调度"</span><span class="pun">项</span><span class="pln">
+</span><span class="pun">--新建调度</span><span class="pln">
+</span><span class="pun">--</span><span class="str">"名称"</span><span class="pun">中输入调度名称</span><span class="pln">
+</span><span class="pun">--</span><span class="str">"调度类型"</span><span class="pun">中选择你的作业执行安排</span><span class="pln">
+</span><span class="pun">--如果选择</span><span class="str">"反复出现"</span><span class="pln">
+</span><span class="pun">--点</span><span class="str">"更改"</span><span class="pun">来设置你的时间安排</span><span class="pln">
+ 
+ 
+</span><span class="pun">然后将</span><span class="pln">SQL </span><span class="typ">Agent</span><span class="pun">服务启动,并设置为自动启动,否则你的作业不会被执行</span><span class="pln">
+ 
+</span><span class="pun">设置方法:</span><span class="pln">
+</span><span class="pun">我的电脑--控制面板--管理工具--服务--右键</span><span class="pln"> SQLSERVERAGENT</span><span class="pun">--属性--启动类型--选择</span><span class="str">"自动启动"</span><span class="pun">--确定.</span><span class="pln">
+ 
+ 
+</span><span class="pun">--</span><span class="lit">3.</span><span class="pun">实现同步处理的方法</span><span class="lit">2</span><span class="pun">,定时同步</span><span class="pln">
+ 
+</span><span class="pun">--在</span><span class="pln">srv1</span><span class="pun">中创建如下的同步处理存储过程</span><span class="pln">
+create proc p_process
+</span><span class="kwd">as</span><span class="pln">
+</span><span class="pun">--更新修改过的数据</span><span class="pln">
+update b </span><span class="kwd">set</span><span class="pln"> name</span><span class="pun">=</span><span class="pln">i</span><span class="pun">.</span><span class="pln">name</span><span class="pun">,</span><span class="pln">telphone</span><span class="pun">=</span><span class="pln">i</span><span class="pun">.</span><span class="pln">telphone
+</span><span class="kwd">from</span><span class="pln"> srv2</span><span class="pun">.库名.</span><span class="pln">dbo</span><span class="pun">.</span><span class="pln">author b</span><span class="pun">,</span><span class="pln">author i
+</span><span class="kwd">where</span><span class="pln"> b</span><span class="pun">.</span><span class="pln">id</span><span class="pun">=</span><span class="pln">i</span><span class="pun">.</span><span class="pln">id </span><span class="kwd">and</span><span class="pln">
+</span><span class="pun">(</span><span class="pln">b</span><span class="pun">.</span><span class="pln">name </span><span class="pun">&lt;&gt;</span><span class="pln"> i</span><span class="pun">.</span><span class="pln">name </span><span class="kwd">or</span><span class="pln"> b</span><span class="pun">.</span><span class="pln">telphone </span><span class="pun">&lt;&gt;</span><span class="pln"> i</span><span class="pun">.</span><span class="pln">telphone</span><span class="pun">)</span><span class="pln">
+ 
+</span><span class="pun">--插入新增的数据</span><span class="pln">
+insert srv2</span><span class="pun">.库名.</span><span class="pln">dbo</span><span class="pun">.</span><span class="pln">author</span><span class="pun">(</span><span class="pln">id</span><span class="pun">,</span><span class="pln">name</span><span class="pun">,</span><span class="pln">telphone</span><span class="pun">)</span><span class="pln">
+</span><span class="kwd">select</span><span class="pln"> id</span><span class="pun">,</span><span class="pln">name</span><span class="pun">,</span><span class="pln">telphone </span><span class="kwd">from</span><span class="pln"> author i
+</span><span class="kwd">where</span><span class="pln"> </span><span class="kwd">not</span><span class="pln"> exists</span><span class="pun">(</span><span class="pln">
+</span><span class="kwd">select</span><span class="pln"> </span><span class="pun">*</span><span class="pln"> </span><span class="kwd">from</span><span class="pln"> srv2</span><span class="pun">.库名.</span><span class="pln">dbo</span><span class="pun">.</span><span class="pln">author </span><span class="kwd">where</span><span class="pln"> id</span><span class="pun">=</span><span class="pln">i</span><span class="pun">.</span><span class="pln">id</span><span class="pun">)</span><span class="pln">
+ 
+</span><span class="pun">--删除已经删除的数据(如果需要的话)</span><span class="pln">
+</span><span class="kwd">delete</span><span class="pln"> b
+</span><span class="kwd">from</span><span class="pln"> srv2</span><span class="pun">.库名.</span><span class="pln">dbo</span><span class="pun">.</span><span class="pln">author b
+</span><span class="kwd">where</span><span class="pln"> </span><span class="kwd">not</span><span class="pln"> exists</span><span class="pun">(</span><span class="pln">
+</span><span class="kwd">select</span><span class="pln"> </span><span class="pun">*</span><span class="pln"> </span><span class="kwd">from</span><span class="pln"> author </span><span class="kwd">where</span><span class="pln"> id</span><span class="pun">=</span><span class="pln">b</span><span class="pun">.</span><span class="pln">id</span><span class="pun">)</span><span class="pln">
+go</span></code></pre>
+	</body>
+</html>
