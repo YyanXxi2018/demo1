@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+ 
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,minimum-scale=1,maximum-scale=1,initial-scale=1,user-scalable=no">
+    <script src="https://cdn.bootcss.com/iScroll/5.2.0/iscroll.min.js"></script>
+    <style>
+    .wechat_from {
+        position: fixed;
+       
+        top: 0;
+        left: 0;
+        right: 0;
+        /*防止 下拉太长 显示 蓝色背景*/
+       
+        color: #7A7B7D;
+        padding: 10px 0;
+        font-size: 12px;
+    }
+ 
+    #wrapper {
+        position: absolute;
+        z-index: 1;
+        top: 0;
+        bottom: 0;
+        width: 100%;
+        overflow: hidden;
+    }
+ 
+
+    </style>
+	<meta charset='UTF-8'>
+<meta name='viewport'
+	content='width=device-width,maximum-scale=1.0,minimum-scale=1.0'>
+<meta http-equiv='X-UA-Compatible' content='ie=edge'>
+<title>给你的头像戴上口罩-言凞娱乐网络</title>
+<link rel="shortcut icon" href="hat1.png" type="image/x-icon" />
+<link rel="stylesheet" href="main.css" />
+<link rel="stylesheet" href="index.css">
+<!-- 每天用户访问量 -->
+<script type="text/javascript" src="Traffic volume.js"></script>
+<!-- 网站实时显示运行天数 -->
+<script type="text/javascript">
+	function show_site_runtime() {
+		window.setTimeout("show_site_runtime()", 1000); // 每秒运行一次函数
+		X = new Date("01/01/2020 12:00:00"); //在这里修改你的建站时间,月/日/年 时/分/秒
+		Y = new Date();
+		T = (Y.getTime() - X.getTime()); // 获取当前时间与指定时间之间的时间间隔（ms）	
+		i = 24 * 60 * 60 * 1000;
+		d = T / i;
+		D = Math.floor(d); // 计算天数并向下取整
+		h = (d - D) * 24;
+		H = Math.floor(h); // 计算剩余不足一天的小时数并向下取整
+		m = (h - H) * 60;
+		M = Math.floor(m); // 计算剩余不足一小时的分钟数并向下取整
+		s = (m - M) * 60
+		S = Math.floor(s); // 计算剩余不足一分钟的秒数并向下取整
+		site_runtime.innerHTML = D + " 天 " + H + " 小时 " + M + " 分 " + S + " 秒 ";
+	}
+	show_site_runtime();
+</script>
+</head>
+ <div class="wechat_from">
+ </br>
+        <center>此网页由 言凞ByQq1414861799 提供</center>
+    </div>
+<body>
+    
+    <div id="wrapper">
+        <div id="container">
+            <div class='header'>
+		<h2>给头像加上口罩</h2>
+	</div>
+	<h4>
+		公告:2020春节快乐！<br>各位小伙伴们出门一定要戴口罩哦、<br>要勤洗手，注意通风、少去人流密集区，<br>如感到不适，请立即前往医院就诊。<br>不信谣，不造谣，不传谣。<br>中国加油！！！武汉加油！！！
+	</h4>
+
+	<a title="实时更新：你的定制防疫地图"
+		href="https://z.cbndata.com/2019-nCoV/index.html" target="_blank"
+		rel="noopener noreferrer" class="nya-btn">实时更新：你的定制防疫地图</a>
+	<br>
+	<br>
+	<a title="MYSQL基础常见常用语句大全" href="MYSQL基础常见常用语句大全.html" target="_blank"
+		rel="noopener noreferrer" class="nya-btn">MYSQL基础常见常用语句大全</a>
+	<br>
+	<a title="其他平台" href="抖音很火的动态表白" target="_blank"
+		rel="noopener noreferrer" class="nya-btn">抖音很火的卡通html表白</a>
+	<br>
+	<a title="其他平台" href="202002011909023891" target="_blank"
+		rel="noopener noreferrer" class="nya-btn">爱心时间</a>
+	<br>
+	<a title="其他平台" href="PC宽带提速工具" target="_blank"
+		rel="noopener noreferrer" class="nya-btn">PC宽带提速工具</a>
+	<br>
+	<!--<a title="其他平台" href="http://28b6f08659.oicp.vip/" target="_blank" rel="noopener noreferrer" class="nya-btn">其他平台</a>  <br> -->
+	<a title="一键生成武汉加油微信头像"
+		href="http://itv.cctv.com/html/2020whjy/index.html" target="_blank"
+		rel="noopener noreferrer" class="nya-btn">一键生成武汉加油微信头像</a>
+	<br>
+	<br />
+	<!-- 生成口罩头像 -->
+	<div class='body' id='uploadContainer'>
+		<small id='uploadText'>上传头像</small> <input id='upload' type='file'
+			onchange='viewer()'
+			style='height: 10rem; width: 10rem; position: absolute; top: 0; left: 0; opacity: 0'>
+	</div>
+	<img id='export' alt='言凞娱乐网络' src='' />
+	<canvas id='cvs'></canvas>
+	<p id='tip' style='opacity: 0'>点击口罩调整位置和大小</p>
+	<div class='footer'>
+		<button id='change' onClick='changeHat()' style='display: none;'>换一
+			个</button>
+		<button id='exportBtn' onClick='exportFunc()'>生成头像</button>
+		<!-- <a onClick='reUpload()'>重来</a> -->
+	</div>
+	<!--
+  <div style="font-size: .7em;
+    color: #b3b3b3;"></div>
+	-->
+	
+	<!-- 脚部 -->
+	<div>
+		<!-- 心灵鸡汤 -->
+		<div>
+			<style type="text/css">
+@media screen and (max-width: 1980px) {
+	.xiaolugg {
+		float: left;
+		width: calc(( 100% - 6px)/2);
+		height: 70px;
+	}
+	@media screen and (max-width: 1198px) {
+		.xiaolugg {
+			float: left;
+			width: 100%;
+			height: 70px;
+		}
+	}
+}
+</style>
+			<script src="https://api.btstu.cn/yan/api.php?encode=js"></script>
+			<div
+				style="background-color: #ffd400; text-align: center; margin-top: 20px;">心灵鸡汤</div>
+			<div
+				style="text-align: center; background-color: #ffffff; color: #45b97c; margin-bottom: 20px;">
+				<script>
+					text()
+				</script>
+			</div>
+		</div>
+		<!-- 心灵鸡汤 -->
+		网站已平稳运行： <span id="site_runtime" style="color: #24a0f0;"></span> <br />
+		Copyright © 2020 <a href="http://28b6f08659.oicp.vip/#">言凞娱乐网络</a> <img
+			style="height: 50px; width: 50px"
+			src="./qrcode_for_gh_2153bc3d5d69_258.jpg" /> All rights reserved.
+			</br></br></br>
+		<div style='display: none'>
+			<img id='img' src='' alt='' /> <img class='hide' id='hat0'
+				src='./hat0.png' /> <img class='hide' id='hat1' src='./hat1.png' />
+			<img class='hide' id='hat2' src='./hat2.png' /> <img class='hide'
+				id='hat3' src='./hat3.png' /> <img class='hide' id='hat4'
+				src='./hat4.png' /> <img class='hide' id='hat5' src='./hat5.png' />
+			<img class='hide' id='hat6' src='./hat6.png' /> <img class='hide'
+				id='hat7' src='./hat7.png' /> <img class='hide' id='hat8'
+				src='./hat8.png' /> <img class='hide' id='hat9' src='./hat9.png' />
+		</div>
+		<script
+			src="https://cdn.bootcss.com/fabric.js/2.0.0-rc.3/fabric.min.js"></script>
+		<script src="index.js"></script>
+		<script async
+			src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js" />
+		</script>
+	</div>
+        </div>
+    </div>
+    <script>
+    var myScroll;
+ 
+    function isPassive() {
+        var supportsPassiveOption = false;
+        try {
+            addEventListener("test", null, Object.defineProperty({}, 'passive', {
+                get: function() {
+                    supportsPassiveOption = true;
+                }
+            }));
+        } catch (e) {}
+        return supportsPassiveOption;
+    }
+ 
+    window.onload = function() {
+        myScroll = new IScroll('#wrapper', { mouseWheel: true });
+    }
+    document.addEventListener('touchmove', function(e) { e.preventDefault(); }, isPassive() ? {
+        capture: false,
+        passive: false
+    } : false);
+    </script>
+</body>
+ 
+</html>
